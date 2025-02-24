@@ -149,6 +149,9 @@ public class EnemyChaseAI : MonoBehaviour
         attackEffect.transform.position = transform.position + new Vector3(transform.localScale.x * 1f, 0, 0); // Umieszczamy przed wrogiem
         attackEffect.transform.localScale = new Vector3(attackRange, attackRange, 1); // Rozmiar prostokąta
         attackEffect.GetComponent<Renderer>().material.color = Color.red; // Kolor czerwony
+        attackEffect.GetComponent<Renderer>().sortingLayerName = "Foreground";
+        attackEffect.GetComponent<Renderer>().sortingOrder = 5;
+        attackEffect.transform.position += new Vector3(0, 0, -1);
         Destroy(attackEffect, 0.2f); // Usuwamy po 0.2 sekundy
         if (player != null)
         {

@@ -129,7 +129,11 @@ public class PlayerMovement : MonoBehaviour
         // Tymczasowa animacja - kwadrat pojawia się na chwilę
         GameObject attackEffect = GameObject.CreatePrimitive(PrimitiveType.Quad);
         attackEffect.transform.position = attackPoint.position;
+        attackEffect.transform.position += new Vector3(0, 0, -1);
         attackEffect.transform.localScale = new Vector3(attackRange, attackRange, 1);
+        attackEffect.GetComponent<Renderer>().sortingLayerName = "Foreground";
+        attackEffect.GetComponent<Renderer>().sortingOrder = 5;
+        attackEffect.GetComponent<Renderer>().material.color = Color.red;
         Destroy(attackEffect, 0.1f); // Po 0.2 sekundy znika
 
         // Wykrywamy wrogów w zasięgu ataku
