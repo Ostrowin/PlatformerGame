@@ -16,6 +16,12 @@ public class EnemyChaseAI : MonoBehaviour
     public int health = 3; // HP wroga
     private HealthBar healthBar; 
 
+    public float attackRange = 1.2f; // Zasięg ataku
+    public float attackCooldown = 2f; // Czas między atakami
+    public int attackDamage = 1; // Obrażenia zadawane przez wroga
+    public float knockbackForce = 5f; // Siła odrzutu gracza
+    private bool canAttack = true; // Czy wróg może atakować
+
     void Start()
     {
         target = patrolPointA; // Wróg zaczyna patrolować
@@ -42,7 +48,14 @@ public class EnemyChaseAI : MonoBehaviour
 
         if (isChasing)
         {
-            ChasePlayer();
+            if (distanceToPlayer > attackRange)
+            {
+                ChasePlayer(); // Jeśli gracz jest dalej, wróg goni
+            }
+            else if (canAttack)
+            {
+                StartCoroutine(AttackPlayer()); // Jeśli blisko, atakuje
+            }
         }
         else
         {
@@ -107,4 +120,27 @@ public class EnemyChaseAI : MonoBehaviour
         Destroy(gameObject); // Usuwamy obiekt
     }
 
+    IEnumerator AttackPlayer()
+    {
+        canAttack = false; // Blokujemy atak na czas cooldownu
+        Debug.Log("Wróg atakuje gracza!");
+
+        // 🔥 Tworzymy prostokąt ataku
+        GameObject attackEffect = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        attackEffect.transform.position = transform.position + new Vector3(transform.localScale.x * 1f, 0, 0); // Umieszczamy przed wrogiem
+        attackEffect.transform.localScale = new Vector3(attackRange, attackRange, 1); // Rozmiar prostokąta
+        attackEffect.GetComponent<Renderer>().material.color = Color.red; // Kolor czerwony
+        Destroy(attackEffect, 0.2f); // Usuwamy po 0.2 sekundy
+        if (player != null)
+        {
+            PlayerMovement playerScript = player.GetComponent<PlayerMovement>();
+            if (playerScript != null)
+            {
+                playerScript.TakeDamage(attackDamage, transform);
+            }
+        }
+
+        yield return new WaitForSeconds(attackCooldown); // Czekamy na cooldown ataku
+        canAttack = true;
+    }
 }

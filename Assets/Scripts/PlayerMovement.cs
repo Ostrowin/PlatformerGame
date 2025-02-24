@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,11 +19,16 @@ public class PlayerMovement : MonoBehaviour
     private HealthBar healthBar;
     public int maxHealth = 5;
     private int currentHealth;
+    private bool isInvincible = false; // Czy gracz ma niewrażliwość?
+    public float invincibilityDuration = 3f; // Czas niewrażliwości
+    public float knockbackForce = 5f; // Siła odrzutu po trafieniu
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
+        spriteRenderer = GetComponent<SpriteRenderer>();
         healthBar = GetComponentInChildren<HealthBar>();
         if (healthBar != null)
         {
@@ -147,10 +153,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, Transform enemy)
     {
+        if (isInvincible) return; // Jeśli jest niewrażliwy, ignorujemy obrażenia
         currentHealth -= damage;
-        if (currentHealth < 0) currentHealth = 0;
+        Debug.Log("Gracz otrzymał " + damage + " obrażeń! HP: " + currentHealth);
+        
+        // if (currentHealth < 0) currentHealth = 0;
 
         if (healthBar != null)
         {
@@ -160,8 +169,34 @@ public class PlayerMovement : MonoBehaviour
         if (currentHealth <= 0)
         {
             Debug.Log("Gracz zginął!");
+            Respawn();
             // Dodaj system respawn
         }
+
+        // 🔥 Odrzut gracza w stronę przeciwną do wroga
+        Vector2 knockbackDirection = (transform.position - enemy.position).normalized;
+        rb.velocity = Vector2.zero; // Resetujemy prędkość, aby odrzut był widoczny
+        rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+
+        // 🔥 Uruchamiamy niewrażliwość
+        StartCoroutine(InvincibilityFrames());
+    }
+
+    IEnumerator InvincibilityFrames()
+    {
+        isInvincible = true;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < invincibilityDuration)
+        {
+            spriteRenderer.color = new Color(1, 1, 1, 0.5f); // Przezroczystość 50%
+            yield return new WaitForSeconds(0.2f);
+            spriteRenderer.color = Color.red; // Wraca do normalnego koloru
+            yield return new WaitForSeconds(0.2f);
+            elapsedTime += 0.4f;
+        }
+
+        isInvincible = false;
     }
 
 }

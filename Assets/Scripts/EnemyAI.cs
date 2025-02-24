@@ -34,16 +34,17 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("Kolizja z: " + collision.gameObject.name); // Wyświetli w konsoli nazwę obiektu, który dotknął wroga
+    // void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     Debug.Log("Kolizja z: " + collision.gameObject.name); // Wyświetli w konsoli nazwę obiektu, który dotknął wroga
 
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Gracz dotknął przeciwnika! Resetowanie pozycji...");
-            collision.gameObject.GetComponent<PlayerMovement>().Respawn();
-        }
-    }
+
+    //     if (collision.gameObject.CompareTag("Player"))
+    //     {
+    //         Debug.Log("Wróg zadaje obrażenia graczowi!");
+    //         collision.gameObject.GetComponent<PlayerMovement>().TakeDamage(1, transform);
+    //     }
+    // }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -51,8 +52,8 @@ public class EnemyAI : MonoBehaviour
 
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Gracz dotknął przeciwnika! Resetowanie pozycji...");
-            collision.GetComponent<PlayerMovement>().Respawn();
+                Debug.Log("Wróg zadaje obrażenia graczowi!");
+            collision.gameObject.GetComponent<PlayerMovement>().TakeDamage(1, transform);
         }
     }
 
