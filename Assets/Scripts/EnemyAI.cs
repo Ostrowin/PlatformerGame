@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -7,24 +8,23 @@ public class EnemyAI : MonoBehaviour
     public Transform pointB; // Drugi punkt patrolu
     private Transform target;
 
-    // public Transform groundCheck; // Punkt sprawdzający ziemię
-    // public LayerMask groundLayer; // Warstwa podłoża
-    // private bool isGrounded;
+    public int health = 3; // HP wroga
+    private HealthBar healthBar; 
 
     void Start()
     {
         target = pointB; // Zaczynamy od ruchu w stronę pointB
+        healthBar = GetComponentInChildren<HealthBar>();
+        if (healthBar != null)
+        {
+            healthBar.Initialize(health);
+        }
     }
 
     void Update()
     {
         // isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
         transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-
-        // if (isGrounded)
-        // {
-        //     rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, 0)); // Blokujemy spadanie przez ziemię
-        // }
         
         // Zmiana kierunku, gdy wróg dotrze do celu
         if (Vector2.Distance(transform.position, target.position) < 0.1f)
@@ -53,6 +53,45 @@ public class EnemyAI : MonoBehaviour
             Debug.Log("Gracz dotknął przeciwnika! Resetowanie pozycji...");
             collision.GetComponent<PlayerMovement>().Respawn();
         }
+    }
+
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage; // Odejmujemy HP
+        Debug.Log(name + " otrzymał " + damage + " obrażeń! HP: " + health);
+
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(health);
+        }
+        
+        // Jeśli wróg ma SpriteRenderer, zapisujemy jego oryginalny kolor i migamy na czerwono
+        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+        if (sprite != null)
+        {
+            StartCoroutine(DamageEffect(sprite));
+        }
+
+        // Jeśli HP spadnie do 0, wróg umiera
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    IEnumerator DamageEffect(SpriteRenderer sprite)
+    {
+        Color originalColor = sprite.color; // Zapamiętujemy kolor
+        sprite.color = Color.red; // Wróg zmienia kolor na czerwony
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = originalColor; // Wracamy do oryginalnego koloru
+    }
+
+    void Die()
+    {
+        Debug.Log(name + " zginął!");
+        Destroy(gameObject); // Usuwamy obiekt
     }
 
 }

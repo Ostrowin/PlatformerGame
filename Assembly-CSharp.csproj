@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Assets/Scripts/EnemyChaseAI.cs" />
     <Compile Include="Assets/Scripts/EnemyAI.cs" />
+    <Compile Include="Assets/Scripts/HealthBar.cs" />
     <Compile Include="Assets/Scripts/CameraFollow.cs" />
     <Compile Include="Assets/Scripts/PlayerMovement.cs" />
   </ItemGroup>
