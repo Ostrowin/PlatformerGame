@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 10f;
+    public float speed = 5f;
     public float jumpForce = 15f;
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -25,6 +25,16 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     public float regenTime = 3f; // hp regen
+    
+    // 🔥 Wall Jump & Wall Stick
+    public Transform wallCheckLeft, wallCheckRight; // Dwa punkty sprawdzające ściany    public float wallCheckRadius = 0.2f;
+    public float wallCheckRadius = 0.2f;
+    public LayerMask wallLayer; // Warstwa, na której wykrywamy ściany
+    private bool isTouchingWall;
+    private bool isWallSliding;
+    public float wallSlideSpeed = 1f; // Prędkość zsuwania się po ścianie
+    public float wallJumpForce = 10f;
+    public float wallJumpXForce = 15f;
 
     void Start()
     {
@@ -75,10 +85,45 @@ public class PlayerMovement : MonoBehaviour
             lastMoveDirection = new Vector2(move, 0).normalized;
         }
 
-        // Skok
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        // 🔥 Wall Stick Mechanic
+        isTouchingWall = Physics2D.OverlapCircle(wallCheckLeft.position, wallCheckRadius, wallLayer) || 
+                 Physics2D.OverlapCircle(wallCheckRight.position, wallCheckRadius, wallLayer);
+
+        if (isTouchingWall && Input.GetAxisRaw("Horizontal") != 0 && rb.velocity.y < 0)
         {
-            rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            isWallSliding = true;
+            Debug.Log("isWallSliding: " + isWallSliding);
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+
+        if (isWallSliding)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            Debug.Log("Jump");
+            if (isWallSliding)
+            {
+                Debug.Log("isWallSliding");
+                WallJump(); // 🔥 Wykonaj Wall Jump, jeśli gracz jest na ścianie
+            }
+            else if (isGrounded)
+            {
+                Debug.Log("isGrounded");
+                rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            }
+        }
+
+        // 🔥 Jeśli gracz nie jest na ziemi i nie ślizga się po ścianie, powoli wracamy do pionu
+        if (!isGrounded && !isWallSliding)
+        {
+            float smoothRotation = Mathf.LerpAngle(transform.rotation.eulerAngles.z, 0, Time.deltaTime * 5f);
+            transform.rotation = Quaternion.Euler(0, 0, smoothRotation);
         }
 
         //Atak
@@ -222,4 +267,22 @@ public class PlayerMovement : MonoBehaviour
         isInvincible = false;
     }
 
+   void WallJump()
+    {
+        Debug.Log("WallJump");
+        
+        bool touchingLeftWall = Physics2D.OverlapCircle(wallCheckLeft.position, wallCheckRadius, wallLayer);
+        bool touchingRightWall = Physics2D.OverlapCircle(wallCheckRight.position, wallCheckRadius, wallLayer);
+
+        if (touchingLeftWall || touchingRightWall)
+        {
+            float jumpDirection = touchingLeftWall ? 1 : -1;
+
+            rb.velocity = Vector2.zero;
+            rb.AddForce(new Vector2(jumpDirection * wallJumpXForce, wallJumpForce), ForceMode2D.Impulse);
+            rb.velocity = new Vector2(jumpDirection * wallJumpXForce * 3f, wallJumpForce);
+
+            Debug.Log($"Wall Jump! Kierunek: {jumpDirection}");
+        }
+    }
 }
