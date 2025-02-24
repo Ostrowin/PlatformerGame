@@ -24,15 +24,34 @@ public class PlayerMovement : MonoBehaviour
     public float knockbackForce = 5f; // Siła odrzutu po trafieniu
     private SpriteRenderer spriteRenderer;
 
+    public float regenTime = 3f; // hp regen
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
         healthBar = GetComponentInChildren<HealthBar>();
+        
         if (healthBar != null)
         {
             healthBar.Initialize(maxHealth);
+        }
+
+        InvokeRepeating(nameof(RegenerateHealth), regenTime, regenTime);
+    }
+
+    void RegenerateHealth()
+    {
+        if (currentHealth < maxHealth)
+        {
+            currentHealth++;
+            Debug.Log("Gracz odzyskał 1 HP! Aktualne HP: " + currentHealth);
+
+            if (healthBar != null)
+            {
+                healthBar.SetHealth(currentHealth); // Aktualizacja paska HP
+            }
         }
     }
 

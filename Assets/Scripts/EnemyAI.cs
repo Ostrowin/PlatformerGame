@@ -8,17 +8,35 @@ public class EnemyAI : MonoBehaviour
     public Transform pointB; // Drugi punkt patrolu
     private Transform target;
 
-    public int health = 3; // HP wroga
+    public int maxHealth = 5;
+    private int currentHealth;
     private HealthBar healthBar; 
+    public float regenTime = 5f; // hp regen
 
     void Start()
     {
         target = pointB; // Zaczynamy od ruchu w stronę pointB
+        currentHealth = maxHealth;
         healthBar = GetComponentInChildren<HealthBar>();
         if (healthBar != null)
         {
-            healthBar.Initialize(health);
-            Debug.Log("Zainicjalizowano pasek HP dla: " + name + " z HP: " + health);
+            healthBar.Initialize(currentHealth);
+            Debug.Log("Zainicjalizowano pasek HP dla: " + name + " z HP: " + currentHealth);
+        }
+        InvokeRepeating(nameof(RegenerateHealth), regenTime, regenTime);
+    }
+
+    void RegenerateHealth()
+    {
+        if (currentHealth < maxHealth)
+        {
+            currentHealth++;
+            Debug.Log(name + " odzyskał 1 HP! Aktualne HP: " + currentHealth);
+
+            if (healthBar != null)
+            {
+                healthBar.SetHealth(currentHealth); // Aktualizacja paska HP
+            }
         }
     }
 
@@ -60,13 +78,13 @@ public class EnemyAI : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        health -= damage; // Odejmujemy HP
-        Debug.Log(name + " otrzymał " + damage + " obrażeń! HP: " + health);
+        currentHealth -= damage; // Odejmujemy HP
+        Debug.Log(name + " otrzymał " + damage + " obrażeń! HP: " + currentHealth);
 
         if (healthBar != null)
         {
             Debug.Log("Aktualizacja paska HP dla: " + name);
-            healthBar.SetHealth(health);
+            healthBar.SetHealth(currentHealth);
         }
         else
         {
@@ -80,7 +98,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         // Jeśli HP spadnie do 0, wróg umiera
-        if (health <= 0)
+        if (currentHealth <= 0)
         {
             Die();
         }
