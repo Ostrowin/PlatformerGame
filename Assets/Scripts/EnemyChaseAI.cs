@@ -23,6 +23,7 @@ public class EnemyChaseAI : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.Initialize(health);
+            Debug.Log("Zainicjalizowano pasek HP dla: " + name + " z HP: " + health);
         }
     }
 
@@ -71,7 +72,12 @@ public class EnemyChaseAI : MonoBehaviour
 
         if (healthBar != null)
         {
+            Debug.Log("Aktualizacja paska HP dla: " + name);
             healthBar.SetHealth(health);
+        }
+        else
+        {
+            Debug.LogWarning("Brak komponentu HealthBar dla: " + name);
         }
         // Jeśli wróg ma SpriteRenderer, zapisujemy jego oryginalny kolor i migamy na czerwono
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();
