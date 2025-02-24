@@ -25,7 +25,7 @@
 [x] kill on 0 hp
 [] mana bars
 [] Cooldowns on every attack cobination
-[] after take damage, player is invulnerable, gets opacity
+[x] after take damage, player is invulnerable, gets opacity
 [] heal every 3-5 sec
 
 ## Mapy
