@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public int maxHealth = 5;
     private int currentHealth;
     private bool isInvincible = false; // Czy gracz ma niewrażliwość?
-    public float invincibilityDuration = 3f; // Czas niewrażliwości
+    public float invincibilityDuration = 1f; // Czas niewrażliwości
     public float knockbackForce = 5f; // Siła odrzutu po trafieniu
     private SpriteRenderer spriteRenderer;
 

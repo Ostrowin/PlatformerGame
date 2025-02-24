@@ -26,7 +26,7 @@
 [] mana bars
 [] Cooldowns on every attack cobination
 [x] after take damage, player is invulnerable, gets opacity
-[] heal every 3-5 sec
+[x] heal every 3-5 sec
 
 ## Mapy
 
@@ -47,3 +47,9 @@
 ## Refactor
 
 [] Pogrupować main Scene w foldery?
+
+## Poruszanie
+
+[] wspinaczka / odskok
+[] dash
+[] szybsze bieganie

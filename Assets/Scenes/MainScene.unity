@@ -2213,7 +2213,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   maxHealth: 5
-  invincibilityDuration: 3
+  invincibilityDuration: 1
   knockbackForce: 5
   regenTime: 3
 --- !u!1 &1335567583
