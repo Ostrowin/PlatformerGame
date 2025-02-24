@@ -1,0 +1,13 @@
+
+# Unity - foldery, które nie powinny być w repo
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+Packages/
+PackageCache/
+
