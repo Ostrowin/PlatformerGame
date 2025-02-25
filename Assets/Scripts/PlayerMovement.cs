@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
     public float wallJumpForce = 10f;
     public float wallJumpXForce = 15f;
 
+    public bool isDashing = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -67,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (isDashing) return; // Jeśli trwa Dash, ignorujemy standardowy ruch
+
         // Ruch w lewo/prawo
         float move = 0;
 

@@ -9,6 +9,7 @@
 [] tekstury
 [] sword
 [] magic
+[] Pobrać peengi od swipów
 
 ## Story
 
@@ -24,9 +25,11 @@
 [x] hp bar
 [x] kill on 0 hp
 [] mana bars
-[] Cooldowns on every attack cobination
+[x] Cooldowns on every attack cobination
 [x] after take damage, player is invulnerable, gets opacity
 [x] heal every 3-5 sec
+[] shooting
+[] shooting enemy
 
 ## Mapy
 
@@ -50,6 +53,11 @@
 
 ## Poruszanie
 
-[] wspinaczka / odskok
-[] dash
+[x] wspinaczka / odskok
+[x] dash
 [] szybsze bieganie
+
+## Plansza
+
+[] Dodać box z wyświetlającymi się cooldownami
+[]
