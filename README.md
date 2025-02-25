@@ -62,3 +62,7 @@
 
 [] Dodać box z wyświetlającymi się cooldownami
 []
+
+# LINKS
+
+https://pngimg.com/

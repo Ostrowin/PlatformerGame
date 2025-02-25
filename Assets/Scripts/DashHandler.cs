@@ -8,10 +8,14 @@ public class DashHandler : MonoBehaviour
     public float dashCooldown = 1.5f;
     private bool canDash = true;
     public ParticleSystem dashEffect;
+    private CooldownManager cooldownManager;
+    public Sprite dashIcon; // Ikona dla Dasha
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        cooldownManager = FindObjectOfType<CooldownManager>();
+
         FindObjectOfType<KeyCombinationManager>().RegisterCombination(
             new KeyCode[] { KeyCode.A, KeyCode.LeftArrow, KeyCode.D }, 
             () => Dash(-1)
@@ -28,8 +32,9 @@ public class DashHandler : MonoBehaviour
         if (!canDash) return;
 
         canDash = false;
-        Debug.Log("Dash w stronę: " + (direction == -1 ? "lewo" : "prawo"));
-        
+        // Debug.Log("Dash w stronę: " + (direction == -1 ? "lewo" : "prawo"));
+        cooldownManager.StartCooldown("Dash", dashCooldown, dashIcon); // 🔥 Dodajemy ikonę 
+
         PlayerMovement player = GetComponent<PlayerMovement>();
         player.isDashing = true;
 
@@ -67,6 +72,6 @@ public class DashHandler : MonoBehaviour
         // 🔥 Czekamy na cooldown zanim można wykonać kolejny Dash
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
-        Debug.Log("Dash gotowy do użycia!");
+        // Debug.Log("Dash gotowy do użycia!");
     }
 }

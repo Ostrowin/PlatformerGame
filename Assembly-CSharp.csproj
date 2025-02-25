@@ -72,6 +72,7 @@
     <Compile Include="Assets/Scripts/CameraFollow.cs" />
     <Compile Include="Assets/Scripts/AttackHandler.cs" />
     <Compile Include="Assets/Scripts/DashHandler.cs" />
+    <Compile Include="Assets/Scripts/CooldownManager.cs" />
     <Compile Include="Assets/Scripts/PlayerMovement.cs" />
   </ItemGroup>
   <ItemGroup>

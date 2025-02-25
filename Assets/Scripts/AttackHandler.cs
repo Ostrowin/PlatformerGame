@@ -20,9 +20,14 @@ public class AttackHandler : MonoBehaviour
     public float strongAttackCooldown = 2f;
     public float weakAttackCooldown = 1f;
 
+    private CooldownManager cooldownManager;
+    public Sprite strongAttackIcon; // Ikona dla silnego ataku
+    public Sprite weakAttackIcon;   // Ikona dla szybkiego ataku
+
     void Start()
     {
         var keyManager = FindObjectOfType<KeyCombinationManager>();
+        cooldownManager = FindObjectOfType<CooldownManager>();
 
         // 🔥 Silny atak w lewo i prawo
         keyManager.RegisterCombination(new KeyCode[] { KeyCode.W, KeyCode.LeftArrow, KeyCode.E }, () => StrongAttack(Vector2.left));
@@ -57,7 +62,8 @@ public class AttackHandler : MonoBehaviour
 
         isPerformingSpecialAttack = true;
         canStrongAttack = false;
-        Debug.Log($"Silny atak w kierunku {direction}");
+        // Debug.Log($"Silny atak w kierunku {direction}");
+        cooldownManager.StartCooldown("Strong Attack", strongAttackCooldown, strongAttackIcon);
         PerformAttack(direction, strongAttackRange, attackForce, Color.yellow, 3);
 
         StartCoroutine(ResetSpecialAttack());
@@ -70,7 +76,8 @@ public class AttackHandler : MonoBehaviour
 
         isPerformingSpecialAttack = true;
         canWeakAttack = false;
-        Debug.Log($"Słabszy atak w kierunku {direction}");
+        // Debug.Log($"Słaby atak w kierunku {direction}");
+        cooldownManager.StartCooldown("Weak Attack", weakAttackCooldown, weakAttackIcon);
         PerformAttack(direction, weakAttackRange, attackForce / 2, new Color(0.5f, 0f, 0.5f), 1);
 
         StartCoroutine(ResetSpecialAttack());
@@ -81,10 +88,10 @@ public class AttackHandler : MonoBehaviour
     {
         if (isPerformingSpecialAttack || !canBasicAttack) return;
 
-        canBasicAttack = false; // 🔥 Blokujemy atak do końca cooldownu
-        Debug.Log($"Podstawowy atak w kierunku {lastMoveDirection}");
+        canBasicAttack = false;
+        // cooldownManager.StartCooldown("Basic Attack", basicAttackCooldown, basicAttackIcon);
         PerformAttack(lastMoveDirection, 1f, attackForce / 2, Color.white, 2);
-        
+
         StartCoroutine(ResetAttackCooldown(nameof(canBasicAttack), basicAttackCooldown));
     }
 
@@ -105,7 +112,7 @@ public class AttackHandler : MonoBehaviour
         else if (attackType == nameof(canWeakAttack))
             canWeakAttack = true;
 
-        Debug.Log($"{attackType} gotowy do użycia!");
+        // Debug.Log($"{attackType} gotowy do użycia!");
     }
 
     void PerformAttack(Vector2 direction, float range, float force, Color attackColor, int damage)
