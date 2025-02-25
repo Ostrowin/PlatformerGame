@@ -15,16 +15,23 @@ public class AttackHandler : MonoBehaviour
     private bool canBasicAttack = true;
     private bool canStrongAttack = true;
     private bool canWeakAttack = true;
+    private bool canStrongShoot = true;
+    private bool canShoot = true;
 
     public float basicAttackCooldown = 0.5f;
     public float strongAttackCooldown = 2f;
     public float weakAttackCooldown = 1f;
+    public float strongShootCooldown = 8f;
+    public float shootCooldown = 2f;
 
     private CooldownManager cooldownManager;
     public Sprite strongAttackIcon; // Ikona dla silnego ataku
     public Sprite weakAttackIcon;   // Ikona dla szybkiego ataku
-    
+    public Sprite strongShootIcon;   // Ikona dla mocnego strzału
+    public Sprite shootIcon;   // Ikona dla strzału
+
     public GameObject bulletPrefab; // 🔫 Prefab pocisku
+    public GameObject strongBulletPrefab; // 🔫 Prefab pocisku
     private GameObject player;
     
     void Start()
@@ -52,6 +59,9 @@ public class AttackHandler : MonoBehaviour
         
         // 🔥 Strzał
         keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.E }, () => PerformShootAttack());
+
+        // 🔥 Mocny strzał
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.W, KeyCode.E }, () => PerformStrongShoot());
     }
 
     void Update()
@@ -118,6 +128,10 @@ public class AttackHandler : MonoBehaviour
             canStrongAttack = true;
         else if (attackType == nameof(canWeakAttack))
             canWeakAttack = true;
+        else if (attackType == nameof(canStrongShoot))
+            canStrongShoot = true;
+        else if (attackType == nameof(canShoot))
+            canShoot = true;
 
         // Debug.Log($"{attackType} gotowy do użycia!");
     }
@@ -180,6 +194,8 @@ public class AttackHandler : MonoBehaviour
             Debug.LogError("❌ Brak referencji do gracza w AttackHandler!");
             return;
         }
+        if (isPerformingSpecialAttack || !canShoot) return;
+        canShoot = false;
 
         Debug.Log("🔫 Gracz strzela!");
 
@@ -194,5 +210,40 @@ public class AttackHandler : MonoBehaviour
 
         // 🔥 Przekazujemy kierunek do pocisku
         bullet.GetComponent<Bullet>().Initialize(shootDirection);
+
+
+        // 🔥 Cooldown na strzał
+        cooldownManager.StartCooldown("Shoot", shootCooldown, shootIcon);
+        StartCoroutine(ResetAttackCooldown(nameof(canShoot), shootCooldown));
+    }
+
+    private void PerformStrongShoot()
+    {
+        if (player == null) return;
+        if (isPerformingSpecialAttack || !canStrongShoot) return;
+        canStrongShoot = false;
+
+        Debug.Log("💥 Gracz wykonuje MOCNY STRZAŁ!");
+
+        // 🔥 Kierunek strzału na podstawie `lastMoveDirection`
+        Vector2 shootDirection = lastMoveDirection.x >= 0 ? Vector2.right : Vector2.left;
+        Vector3 spawnPosition = player.transform.position + (Vector3)(shootDirection * 1.2f);
+
+        // 🔥 Tworzenie mocnego pocisku
+        GameObject bullet = Instantiate(strongBulletPrefab, spawnPosition, Quaternion.identity);
+        bullet.GetComponent<StrongBullet>().Initialize(shootDirection);
+
+        // 🔥 Gracz lekko odrzucony w przeciwną stronę
+        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+        if (playerRb != null)
+        {
+            Vector2 knockback = new Vector2(-shootDirection.x * 50f, 3f); // Lekkie odepchnięcie
+            playerRb.velocity = Vector2.zero; // Reset prędkości
+            playerRb.AddForce(knockback, ForceMode2D.Impulse);
+        }
+
+        // 🔥 Cooldown na mocny strzał
+        cooldownManager.StartCooldown("StrongShoot", strongShootCooldown, strongShootIcon);
+        StartCoroutine(ResetAttackCooldown(nameof(canStrongShoot), strongShootCooldown));
     }
 }

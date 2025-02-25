@@ -896,7 +896,7 @@ GameObject:
   - component: {fileID: 733369510}
   m_Layer: 7
   m_Name: Chaser
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2489,9 +2489,14 @@ MonoBehaviour:
   basicAttackCooldown: 0.5
   strongAttackCooldown: 5
   weakAttackCooldown: 1
+  strongShootCooldown: 4
+  shootCooldown: 2
   strongAttackIcon: {fileID: 21300000, guid: 14e4c45cb9e8e1fefa596b6e3d0f0a9f, type: 3}
   weakAttackIcon: {fileID: 21300000, guid: c867244a3d83ebbd0b72898ca90ad027, type: 3}
+  strongShootIcon: {fileID: 21300000, guid: 5bea85c0e8f0e4af58d332954755d527, type: 3}
+  shootIcon: {fileID: 21300000, guid: ca88ab373d4c35bbc883d782c7ae6b6c, type: 3}
   bulletPrefab: {fileID: 4964599219098964853, guid: 4cda67e5d31df269abb009c63bd44eab, type: 3}
+  strongBulletPrefab: {fileID: 4964599219098964853, guid: cc6f5ed9f2a733974b33713590c10a92, type: 3}
 --- !u!1 &1321626088
 GameObject:
   m_ObjectHideFlags: 0
@@ -7980,7 +7985,7 @@ GameObject:
   - component: {fileID: 1805038013}
   m_Layer: 7
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

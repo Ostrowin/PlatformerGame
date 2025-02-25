@@ -3,6 +3,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed = 10f;
+    public int shootDamage = 1;
 
     private Vector2 direction;
 
@@ -24,9 +25,24 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Player")) // Nie niszcz kuli, jeśli uderzy w gracza
+        if (collision.CompareTag("Player")) return; // ❌ Nie usuwamy pocisku, jeśli trafi gracza
+
+        if (collision.CompareTag("Enemy")) 
         {
-            Destroy(gameObject);
+            Debug.Log("💥 Pocisk trafił przeciwnika!");
+
+            // 🔥 Sprawdź, czy przeciwnik ma skrypt HP
+            EnemyAI enemy = collision.GetComponent<EnemyAI>();
+            EnemyChaseAI enemyChase = collision.GetComponent<EnemyChaseAI>();
+
+            if (enemy != null) enemy.TakeDamage(shootDamage); // 🔥 Zadaj 1 dmg wrogowi patrolującemu
+            if (enemyChase != null) enemyChase.TakeDamage(shootDamage); // 🔥 Zadaj 1 dmg wrogowi ścigającemu
+
+            Destroy(gameObject); // 🔥 Pocisk znika po trafieniu
+        }
+        else
+        {
+            Destroy(gameObject); // 🔥 Pocisk znika po uderzeniu w ścianę
         }
     }
 }
