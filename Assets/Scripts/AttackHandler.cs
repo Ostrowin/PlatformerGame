@@ -12,6 +12,14 @@ public class AttackHandler : MonoBehaviour
     public static bool isPerformingSpecialAttack = false;
     private Vector2 lastMoveDirection = Vector2.right; // Domyślnie patrzy w prawo
     
+    private bool canBasicAttack = true;
+    private bool canStrongAttack = true;
+    private bool canWeakAttack = true;
+
+    public float basicAttackCooldown = 0.5f;
+    public float strongAttackCooldown = 2f;
+    public float weakAttackCooldown = 1f;
+
     void Start()
     {
         var keyManager = FindObjectOfType<KeyCombinationManager>();
@@ -45,38 +53,59 @@ public class AttackHandler : MonoBehaviour
 
     void StrongAttack(Vector2 direction)
     {
-        if (isPerformingSpecialAttack) return;
+        if (isPerformingSpecialAttack || !canStrongAttack) return;
 
         isPerformingSpecialAttack = true;
+        canStrongAttack = false;
         Debug.Log($"Silny atak w kierunku {direction}");
-        PerformAttack(direction, strongAttackRange, attackForce, Color.yellow, 3); // 🔥 3 obrażenia
+        PerformAttack(direction, strongAttackRange, attackForce, Color.yellow, 3);
 
         StartCoroutine(ResetSpecialAttack());
+        StartCoroutine(ResetAttackCooldown(nameof(canStrongAttack), strongAttackCooldown));
     }
 
     void WeakAttack(Vector2 direction)
     {
-        if (isPerformingSpecialAttack) return;
+        if (isPerformingSpecialAttack || !canWeakAttack) return;
 
         isPerformingSpecialAttack = true;
+        canWeakAttack = false;
         Debug.Log($"Słabszy atak w kierunku {direction}");
-        PerformAttack(direction, weakAttackRange, attackForce / 2, new Color(0.5f, 0f, 0.5f), 1); // 🔥 1 obrażenie
+        PerformAttack(direction, weakAttackRange, attackForce / 2, new Color(0.5f, 0f, 0.5f), 1);
 
         StartCoroutine(ResetSpecialAttack());
+        StartCoroutine(ResetAttackCooldown(nameof(canWeakAttack), weakAttackCooldown));
     }
 
     void BasicAttack()
     {
-        if (isPerformingSpecialAttack) return;
+        if (isPerformingSpecialAttack || !canBasicAttack) return;
 
+        canBasicAttack = false; // 🔥 Blokujemy atak do końca cooldownu
         Debug.Log($"Podstawowy atak w kierunku {lastMoveDirection}");
         PerformAttack(lastMoveDirection, 1f, attackForce / 2, Color.white, 2);
+        
+        StartCoroutine(ResetAttackCooldown(nameof(canBasicAttack), basicAttackCooldown));
     }
 
     IEnumerator ResetSpecialAttack()
     {
         yield return new WaitForSeconds(0.3f); // 🔥 Czas, po którym `E` znowu działa
         isPerformingSpecialAttack = false;
+    }
+
+    IEnumerator ResetAttackCooldown(string attackType, float cooldown)
+    {
+        yield return new WaitForSeconds(cooldown);
+
+        if (attackType == nameof(canBasicAttack))
+            canBasicAttack = true;
+        else if (attackType == nameof(canStrongAttack))
+            canStrongAttack = true;
+        else if (attackType == nameof(canWeakAttack))
+            canWeakAttack = true;
+
+        Debug.Log($"{attackType} gotowy do użycia!");
     }
 
     void PerformAttack(Vector2 direction, float range, float force, Color attackColor, int damage)
