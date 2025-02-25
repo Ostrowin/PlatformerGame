@@ -20,7 +20,7 @@ public class CooldownManager : MonoBehaviour
 
         GameObject cooldownUI = Instantiate(cooldownPrefab, cooldownContainer);
         Transform fillTransform = cooldownUI.transform.Find("Fill");
-
+        cooldownUI.transform.Find("Icon").GetComponent<Image>().sprite = icon;
         if (fillTransform == null)
         {
             Debug.LogError("❌ Nie znaleziono 'Fill' w CooldownPrefab! Sprawdź nazwę!");
