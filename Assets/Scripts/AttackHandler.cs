@@ -23,11 +23,15 @@ public class AttackHandler : MonoBehaviour
     private CooldownManager cooldownManager;
     public Sprite strongAttackIcon; // Ikona dla silnego ataku
     public Sprite weakAttackIcon;   // Ikona dla szybkiego ataku
-
+    
+    public GameObject bulletPrefab; // 🔫 Prefab pocisku
+    private GameObject player;
+    
     void Start()
     {
         var keyManager = FindObjectOfType<KeyCombinationManager>();
         cooldownManager = FindObjectOfType<CooldownManager>();
+        player = GameObject.FindGameObjectWithTag("Player"); // 🔥 Szuka gracza w scenie
 
         // 🔥 Silny atak w lewo i prawo
         keyManager.RegisterCombination(new KeyCode[] { KeyCode.W, KeyCode.LeftArrow, KeyCode.E }, () => StrongAttack(Vector2.left));
@@ -45,6 +49,9 @@ public class AttackHandler : MonoBehaviour
         
         // 🔥 Atak podstawowy
         keyManager.RegisterCombination(new KeyCode[] { KeyCode.E }, () => BasicAttack());
+        
+        // 🔥 Strzał
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.E }, () => PerformShootAttack());
     }
 
     void Update()
@@ -164,5 +171,28 @@ public class AttackHandler : MonoBehaviour
                 enemyPatrol.TakeDamage(damage);
             }
         }
+    }
+    
+    private void PerformShootAttack()
+    {
+        if (player == null)
+        {
+            Debug.LogError("❌ Brak referencji do gracza w AttackHandler!");
+            return;
+        }
+
+        Debug.Log("🔫 Gracz strzela!");
+
+        // 🔥 Używamy `lastMoveDirection`, aby określić stronę strzału
+        Vector2 shootDirection = lastMoveDirection.x >= 0 ? Vector2.right : Vector2.left;
+
+        // 🔥 Pozycja pocisku — obok gracza w kierunku strzału
+        Vector3 spawnPosition = player.transform.position + (Vector3)(shootDirection * 1.2f);
+
+        // 🔥 Tworzenie pocisku
+        GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
+
+        // 🔥 Przekazujemy kierunek do pocisku
+        bullet.GetComponent<Bullet>().Initialize(shootDirection);
     }
 }
