@@ -131,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Atak
-        if (Input.GetKeyDown(KeyCode.W)) // Atak po naciśnięciu W
+        if (Input.GetKeyDown(KeyCode.E)) // Atak po naciśnięciu W
         {
             Attack();
         }

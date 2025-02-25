@@ -33,7 +33,7 @@ public class KeyCombinationManager : MonoBehaviour
             }
         }
 
-        // Reset kombinacji jeśli naciśnięto niewłaściwy klawisz
+        // Resetowanie kombinacji, jeśli naciśnięto niewłaściwy klawisz
         if (Input.anyKeyDown && !registeredCombinations.Keys.Any(comb => comb.Take(currentCombination.Count).SequenceEqual(currentCombination)))
         {
             ResetCombination();

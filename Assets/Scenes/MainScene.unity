@@ -2044,6 +2044,7 @@ GameObject:
   - component: {fileID: 1313708646}
   - component: {fileID: 1313708650}
   - component: {fileID: 1313708651}
+  - component: {fileID: 1313708652}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2245,6 +2246,25 @@ MonoBehaviour:
   dashForce: 30
   dashCooldown: 1.5
   dashEffect: {fileID: 1321626091}
+--- !u!114 &1313708652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313708643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff1e25cb38be8d550850ba4227e17ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPoint: {fileID: 301080388}
+  strongAttackRange: 1
+  weakAttackRange: 1.5
+  attackForce: 7
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &1321626088
 GameObject:
   m_ObjectHideFlags: 0
