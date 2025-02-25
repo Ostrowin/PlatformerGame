@@ -56,6 +56,7 @@
 [x] wspinaczka / odskok
 [x] dash
 [] szybsze bieganie
+[] blokada poruszania się lewo w prawo przy skoku
 
 ## Plansza
 

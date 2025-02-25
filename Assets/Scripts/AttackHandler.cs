@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class AttackHandler : MonoBehaviour
 {
@@ -7,7 +8,10 @@ public class AttackHandler : MonoBehaviour
     public float weakAttackRange = 1.5f;
     public float attackForce = 7f;
     public LayerMask enemyLayers;
-
+    
+    public static bool isPerformingSpecialAttack = false;
+    private Vector2 lastMoveDirection = Vector2.right; // Domyślnie patrzy w prawo
+    
     void Start()
     {
         var keyManager = FindObjectOfType<KeyCombinationManager>();
@@ -25,38 +29,81 @@ public class AttackHandler : MonoBehaviour
 
         // 🔥 Słabszy atak o dalszym zasięgu w górę
         keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.UpArrow, KeyCode.E }, () => WeakAttack(Vector2.up));
+        
+        // 🔥 Atak podstawowy
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.E }, () => BasicAttack());
+    }
+
+    void Update()
+    {
+        float move = Input.GetAxisRaw("Horizontal");
+        if (move != 0)
+        {
+            lastMoveDirection = new Vector2(move, 0).normalized; // 🔥 Zapamiętujemy kierunek ruchu
+        }
     }
 
     void StrongAttack(Vector2 direction)
     {
-        Debug.Log("Silny atak w kierunku: " + direction);
-        PerformAttack(direction, strongAttackRange, attackForce, Color.yellow); // 🔥 Złoty kolor
+        if (isPerformingSpecialAttack) return;
+
+        isPerformingSpecialAttack = true;
+        Debug.Log($"Silny atak w kierunku {direction}");
+        PerformAttack(direction, strongAttackRange, attackForce, Color.yellow, 3); // 🔥 3 obrażenia
+
+        StartCoroutine(ResetSpecialAttack());
     }
 
     void WeakAttack(Vector2 direction)
     {
-        Debug.Log("Słabszy atak w kierunku: " + direction);
-        PerformAttack(direction, weakAttackRange, attackForce / 2, new Color(0.5f, 0f, 0.5f)); // 🔥 Fioletowy kolor
+        if (isPerformingSpecialAttack) return;
+
+        isPerformingSpecialAttack = true;
+        Debug.Log($"Słabszy atak w kierunku {direction}");
+        PerformAttack(direction, weakAttackRange, attackForce / 2, new Color(0.5f, 0f, 0.5f), 1); // 🔥 1 obrażenie
+
+        StartCoroutine(ResetSpecialAttack());
     }
 
-    void PerformAttack(Vector2 direction, float range, float force, Color attackColor)
+    void BasicAttack()
+    {
+        if (isPerformingSpecialAttack) return;
+
+        Debug.Log($"Podstawowy atak w kierunku {lastMoveDirection}");
+        PerformAttack(lastMoveDirection, 1f, attackForce / 2, Color.white, 2);
+    }
+
+    IEnumerator ResetSpecialAttack()
+    {
+        yield return new WaitForSeconds(0.3f); // 🔥 Czas, po którym `E` znowu działa
+        isPerformingSpecialAttack = false;
+    }
+
+    void PerformAttack(Vector2 direction, float range, float force, Color attackColor, int damage)
     {
         Vector3 attackPosition = transform.position + (Vector3)(direction * range);
 
         // 🔥 Tymczasowa wizualizacja ataku
         GameObject attackEffect = GameObject.CreatePrimitive(PrimitiveType.Quad);
         attackEffect.transform.position = attackPosition;
+        attackEffect.transform.position += new Vector3(0, 0, -1); // 🔥 Wypycha do przodu
         attackEffect.transform.localScale = new Vector3(range, range, 1);
-        attackEffect.GetComponent<Renderer>().sortingLayerName = "Foreground";
-        attackEffect.GetComponent<Renderer>().sortingOrder = 5;
-        attackEffect.GetComponent<Renderer>().material.color = attackColor; // 🔥 Ustawienie koloru
+
+        Renderer attackRenderer = attackEffect.GetComponent<Renderer>();
+        if (attackRenderer != null)
+        {
+            attackRenderer.sortingLayerName = "Foreground";
+            attackRenderer.sortingOrder = 10;
+            attackRenderer.material.color = attackColor;
+        }
+
         Destroy(attackEffect, 0.1f);
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, range, enemyLayers);
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("Trafiono: " + enemy.name);
+            Debug.Log($"Trafiono: {enemy.name} | Zadano {damage} obrażeń!");
 
             Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>();
             if (enemyRb != null && enemyRb.bodyType == RigidbodyType2D.Dynamic)
@@ -72,8 +119,14 @@ public class AttackHandler : MonoBehaviour
             EnemyChaseAI enemyChase = enemy.GetComponent<EnemyChaseAI>();
             EnemyAI enemyPatrol = enemy.GetComponent<EnemyAI>();
 
-            if (enemyChase != null) enemyChase.TakeDamage(1);
-            else if (enemyPatrol != null) enemyPatrol.TakeDamage(1);
+            if (enemyChase != null)
+            {
+                enemyChase.TakeDamage(damage);
+            }
+            else if (enemyPatrol != null)
+            {
+                enemyPatrol.TakeDamage(damage);
+            }
         }
     }
 }
