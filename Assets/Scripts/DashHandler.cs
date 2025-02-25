@@ -40,7 +40,6 @@ public class DashHandler : MonoBehaviour
         if (dashEffect != null)
         {
             dashEffect.Play();
-            Debug.Log
         }
 
         StartCoroutine(EndDash());
