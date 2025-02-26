@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour
     public void Initialize(Vector2 shootDirection)
     {
         // 🔥 Strzał lekko w górę (kąt ~10 stopni)
-        direction = (shootDirection + new Vector2(0, 0.2f)).normalized;
+        direction = (shootDirection + new Vector2(0, 0.1f)).normalized;
 
         // 🔥 Włączamy fizykę opadania
         GetComponent<Rigidbody2D>().gravityScale = 0.3f;

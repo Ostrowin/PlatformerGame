@@ -2,7 +2,7 @@
 
 ## Grafika
 
-[] background
+[] parallax background
 [] animations player
 [] aniimations enemies
 [] animations fighting
@@ -28,8 +28,8 @@
 [x] Cooldowns on every attack cobination
 [x] after take damage, player is invulnerable, gets opacity
 [x] heal every 3-5 sec
-[] shooting
-[] shooting enemy
+[x] shooting
+[x] shooting enemy
 
 ## Mapy
 
@@ -50,6 +50,7 @@
 ## Refactor
 
 [] Pogrupować main Scene w foldery?
+[] Rozbić na pliki
 
 ## Poruszanie
 

@@ -10,7 +10,7 @@ public class StrongBullet : MonoBehaviour
     public void Initialize(Vector2 shootDirection)
     {
         // 🔥 Strzał lekko w górę (kąt ~10 stopni)
-        direction = (shootDirection + new Vector2(0, 0.2f)).normalized;
+        direction = (shootDirection + new Vector2(0, 0.1f)).normalized;
 
         Destroy(gameObject, 3f); // 🔥 Auto-destrukcja po 3s
     }
