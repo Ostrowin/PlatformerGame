@@ -35,10 +35,16 @@ public class EnemyChaseAI : MonoBehaviour
             healthBar.Initialize(currentHealth);
             Debug.Log("Zainicjalizowano pasek HP dla: " + name + " z HP: " + currentHealth);
         }
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.freezeRotation = true;
+        }
         InvokeRepeating(nameof(RegenerateHealth), regenTime, regenTime);
     }
 
-        void RegenerateHealth()
+    void RegenerateHealth()
     {
         if (currentHealth < maxHealth)
         {
@@ -47,7 +53,7 @@ public class EnemyChaseAI : MonoBehaviour
 
             if (healthBar != null)
             {
-                healthBar.SetHealth(currentHealth); // Aktualizacja paska HP
+                healthBar.SetHealth(currentHealth);
             }
         }
     }

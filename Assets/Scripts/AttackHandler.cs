@@ -175,6 +175,7 @@ public class AttackHandler : MonoBehaviour
 
             EnemyChaseAI enemyChase = enemy.GetComponent<EnemyChaseAI>();
             EnemyAI enemyPatrol = enemy.GetComponent<EnemyAI>();
+            EnemyShooterAI enemyShooter = enemy.GetComponent<EnemyShooterAI>();
 
             if (enemyChase != null)
             {
@@ -183,6 +184,10 @@ public class AttackHandler : MonoBehaviour
             else if (enemyPatrol != null)
             {
                 enemyPatrol.TakeDamage(damage);
+            }
+            else if (enemyShooter != null)
+            {
+                enemyShooter.TakeDamage(damage);
             }
         }
     }

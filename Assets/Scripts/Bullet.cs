@@ -34,9 +34,11 @@ public class Bullet : MonoBehaviour
             // 🔥 Sprawdź, czy przeciwnik ma skrypt HP
             EnemyAI enemy = collision.GetComponent<EnemyAI>();
             EnemyChaseAI enemyChase = collision.GetComponent<EnemyChaseAI>();
+            EnemyShooterAI enemyShooter = collision.GetComponent<EnemyShooterAI>();
 
             if (enemy != null) enemy.TakeDamage(shootDamage); // 🔥 Zadaj 1 dmg wrogowi patrolującemu
             if (enemyChase != null) enemyChase.TakeDamage(shootDamage); // 🔥 Zadaj 1 dmg wrogowi ścigającemu
+            if (enemyShooter != null) enemyShooter.TakeDamage(shootDamage); // 🔥 Zadaj 1 dmg wrogowi ścigającemu
 
             Destroy(gameObject); // 🔥 Pocisk znika po trafieniu
         }

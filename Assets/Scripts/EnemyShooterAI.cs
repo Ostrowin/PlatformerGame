@@ -5,10 +5,12 @@ public class EnemyShooterAI : MonoBehaviour
     public Transform player;
     public GameObject bulletPrefab;
     public Transform firePoint;
-    
+    private HealthBar healthBar;
+
     [Header("Enemy Stats")]
     public int maxHealth = 5; // 🔥 Ustaw HP przeciwnika
     private int currentHealth;
+    public float regenTime = 5f; // hp regen
 
     [Header("Movement Settings")]
     public float moveSpeed = 3f;
@@ -20,6 +22,39 @@ public class EnemyShooterAI : MonoBehaviour
     public float fireRate = 2f;
 
     private float nextFireTime;
+
+    void Start()
+    {
+        currentHealth = maxHealth; // 🔥 Ustawiamy HP na start
+        healthBar = GetComponentInChildren<HealthBar>();
+        if (healthBar != null)
+        {
+            healthBar.Initialize(currentHealth);
+            Debug.Log("Zainicjalizowano pasek HP dla: " + name + " z HP: " + currentHealth);
+        }
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.freezeRotation = true;
+        }
+
+        InvokeRepeating(nameof(RegenerateHealth), regenTime, regenTime);
+    }
+
+    void RegenerateHealth()
+    {
+        if (currentHealth < maxHealth)
+        {
+            currentHealth++;
+            Debug.Log(name + " odzyskał 1 HP! Aktualne HP: " + currentHealth);
+
+            if (healthBar != null)
+            {
+                healthBar.SetHealth(currentHealth); // Aktualizacja paska HP
+            }
+        }
+    }
 
     void Update()
     {
@@ -56,6 +91,16 @@ public class EnemyShooterAI : MonoBehaviour
         currentHealth -= damage;
         Debug.Log($"🔥 EnemyShooter otrzymał {damage} obrażeń! HP: {currentHealth}");
 
+        if (healthBar != null)
+        {
+            Debug.Log("!!!Aktualizacja paska HP dla: " + name);
+            healthBar.SetHealth(currentHealth);
+        }
+        else
+        {
+            Debug.LogWarning("Brak komponentu HealthBar dla: " + name);
+        }
+        
         if (currentHealth <= 0)
         {
             Die();
@@ -78,8 +123,6 @@ public class EnemyShooterAI : MonoBehaviour
         // 🔥 PRZESUWAMY FIREPOINT WZGLĘDEM PRZECIWNIKA
         firePoint.localPosition = new Vector2(isPlayerOnRight ? firePointOffset : -firePointOffset, 0);
 
-        // 🔥 PRZECIWNIK SIĘ OBRACA
-        transform.localScale = new Vector3(isPlayerOnRight ? 1 : -1, 1, 1);
     }
 
     void ChasePlayer()

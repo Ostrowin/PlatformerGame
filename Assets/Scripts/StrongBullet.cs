@@ -26,6 +26,7 @@ public class StrongBullet : MonoBehaviour
 
         EnemyChaseAI enemyChase = collision.GetComponent<EnemyChaseAI>();
         EnemyAI enemyPatrol = collision.GetComponent<EnemyAI>();
+        EnemyShooterAI enemyShooter = collision.GetComponent<EnemyShooterAI>();
 
         if (enemyChase != null || enemyPatrol != null)
         {
@@ -43,6 +44,7 @@ public class StrongBullet : MonoBehaviour
             // 🔥 Większe obrażenia
             if (enemyChase != null) enemyChase.TakeDamage(shootDamage);
             if (enemyPatrol != null) enemyPatrol.TakeDamage(shootDamage);
+            if (enemyShooter != null) enemyShooter.TakeDamage(shootDamage);
 
             Destroy(gameObject); // 🔥 Pocisk znika po trafieniu
         }

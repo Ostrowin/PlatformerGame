@@ -14,7 +14,7 @@ public class CooldownManager : MonoBehaviour
     {
         if (activeCooldowns.ContainsKey(abilityName)) 
         {
-            Debug.Log($"⚠️ Cooldown {abilityName} już istnieje, nie dodajemy ponownie!");
+            // Debug.Log($"⚠️ Cooldown {abilityName} już istnieje, nie dodajemy ponownie!");
             return; 
         }
 
@@ -23,7 +23,7 @@ public class CooldownManager : MonoBehaviour
         cooldownUI.transform.Find("Icon").GetComponent<Image>().sprite = icon;
         if (fillTransform == null)
         {
-            Debug.LogError("❌ Nie znaleziono 'Fill' w CooldownPrefab! Sprawdź nazwę!");
+            // Debug.LogError("❌ Nie znaleziono 'Fill' w CooldownPrefab! Sprawdź nazwę!");
             return;
         }
 
@@ -35,8 +35,8 @@ public class CooldownManager : MonoBehaviour
 
         activeCooldowns[abilityName] = cooldownUI;
 
-        Debug.Log($"✅ Cooldown {abilityName} rozpoczęty! Aktywne cooldowny przed dodaniem: {activeCooldowns.Count - 1}");
-        Debug.Log($"🔥 Po dodaniu: {activeCooldowns.Count}");
+        // Debug.Log($"✅ Cooldown {abilityName} rozpoczęty! Aktywne cooldowny przed dodaniem: {activeCooldowns.Count - 1}");
+        // Debug.Log($"🔥 Po dodaniu: {activeCooldowns.Count}");
 
         StartCoroutine(UpdateCooldown(abilityName, fillImage, duration));
     }
@@ -51,18 +51,18 @@ public class CooldownManager : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log($"🔥 Cooldown {abilityName} zakończony! Usuwanie tylko tego cooldownu.");
+        // Debug.Log($"🔥 Cooldown {abilityName} zakończony! Usuwanie tylko tego cooldownu.");
 
         // 🔥 Sprawdź, czy cooldown nadal istnieje w Dictionary
         if (activeCooldowns.TryGetValue(abilityName, out GameObject cooldownUI))
         {
             activeCooldowns.Remove(abilityName); // 🛠️ Usuń z listy przed Destroy()
             Destroy(cooldownUI);
-            Debug.Log($"🗑️ Usunięto cooldown {abilityName}. Aktywne cooldowny po usunięciu: {activeCooldowns.Count}");
+            // Debug.Log($"🗑️ Usunięto cooldown {abilityName}. Aktywne cooldowny po usunięciu: {activeCooldowns.Count}");
         }
         else
         {
-            Debug.LogError($"❌ ERROR: Próbowano usunąć cooldown {abilityName}, ale nie było go w activeCooldowns!");
+            // Debug.LogError($"❌ ERROR: Próbowano usunąć cooldown {abilityName}, ale nie było go w activeCooldowns!");
         }
 
         // yield return new WaitForEndOfFrame(); // 🔥 Upewnia się, że usunięcie nastąpi na koniec klatki
@@ -75,7 +75,7 @@ public class CooldownManager : MonoBehaviour
         int index = 0;
         foreach (var cooldown in activeCooldowns.Values)
         {
-            Debug.Log("cooldown: " + cooldown);
+            // Debug.Log("cooldown: " + cooldown);
             RectTransform rect = cooldown.GetComponent<RectTransform>();
             if (rect != null)
             {

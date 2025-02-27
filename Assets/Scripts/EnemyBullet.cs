@@ -42,6 +42,10 @@ public class EnemyBullet : MonoBehaviour
         else if (collision.CompareTag("Ground")) // Opcjonalnie: Pocisk niszczy się po trafieniu w ścianę
         {
             Destroy(gameObject);
+        } 
+        else if (collision.CompareTag("Bullet"))
+        {
+            Destroy(gameObject);
         }
     }
 }
