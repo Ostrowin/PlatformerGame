@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.Initialize(currentHealth);
-            Debug.Log("Zainicjalizowano pasek HP dla: " + name + " z HP: " + currentHealth);
+            // Debug.Log("Zainicjalizowano pasek HP dla: " + name + " z HP: " + currentHealth);
         }
         InvokeRepeating(nameof(RegenerateHealth), regenTime, regenTime);
     }
@@ -31,7 +31,7 @@ public class EnemyAI : MonoBehaviour
         if (currentHealth < maxHealth)
         {
             currentHealth++;
-            Debug.Log(name + " odzyskał 1 HP! Aktualne HP: " + currentHealth);
+            // Debug.Log(name + " odzyskał 1 HP! Aktualne HP: " + currentHealth);
 
             if (healthBar != null)
             {
@@ -66,11 +66,11 @@ public class EnemyAI : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Kolizja TRIGGER z: " + collision.gameObject.name);
+        // Debug.Log("Kolizja TRIGGER z: " + collision.gameObject.name);
 
         if (collision.CompareTag("Player"))
         {
-                Debug.Log("Wróg zadaje obrażenia graczowi!");
+            // Debug.Log("Wróg zadaje obrażenia graczowi!");
             collision.gameObject.GetComponent<PlayerMovement>().TakeDamage(1, transform);
         }
     }
@@ -79,16 +79,16 @@ public class EnemyAI : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage; // Odejmujemy HP
-        Debug.Log(name + " otrzymał " + damage + " obrażeń! HP: " + currentHealth);
+        // Debug.Log(name + " otrzymał " + damage + " obrażeń! HP: " + currentHealth);
 
         if (healthBar != null)
         {
-            Debug.Log("Aktualizacja paska HP dla: " + name);
+            // Debug.Log("Aktualizacja paska HP dla: " + name);
             healthBar.SetHealth(currentHealth);
         }
         else
         {
-            Debug.LogWarning("Brak komponentu HealthBar dla: " + name);
+            // Debug.LogWarning("Brak komponentu HealthBar dla: " + name);
         }
         // Jeśli wróg ma SpriteRenderer, zapisujemy jego oryginalny kolor i migamy na czerwono
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();

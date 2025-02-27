@@ -17,7 +17,7 @@ public class HealthBar : MonoBehaviour
     public void SetHealth(float health)
     {
         currentHealth = health;
-        Debug.Log("Nowe HP: " + currentHealth);
+        // Debug.Log("Nowe HP: " + currentHealth);
         UpdateHealthBar();
     }
 
@@ -26,7 +26,7 @@ public class HealthBar : MonoBehaviour
         if (healthBarFill != null)
         {
             healthBarFill.fillAmount = currentHealth / maxHealth;
-            Debug.Log("Nowa wartość fillAmount: " + healthBarFill.fillAmount);
+            // Debug.Log("Nowa wartość fillAmount: " + healthBarFill.fillAmount);
         }
     }
 }

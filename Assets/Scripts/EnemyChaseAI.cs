@@ -106,16 +106,16 @@ public class EnemyChaseAI : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage; // Odejmujemy HP
-        Debug.Log(name + " otrzymał " + damage + " obrażeń! HP: " + currentHealth);
+        // Debug.Log(name + " otrzymał " + damage + " obrażeń! HP: " + currentHealth);
 
         if (healthBar != null)
         {
-            Debug.Log("Aktualizacja paska HP dla: " + name);
+            // Debug.Log("Aktualizacja paska HP dla: " + name);
             healthBar.SetHealth(currentHealth);
         }
         else
         {
-            Debug.LogWarning("Brak komponentu HealthBar dla: " + name);
+            // Debug.LogWarning("Brak komponentu HealthBar dla: " + name);
         }
         // Jeśli wróg ma SpriteRenderer, zapisujemy jego oryginalny kolor i migamy na czerwono
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();
@@ -148,7 +148,7 @@ public class EnemyChaseAI : MonoBehaviour
     IEnumerator AttackPlayer()
     {
         canAttack = false; // Blokujemy atak na czas cooldownu
-        Debug.Log("Wróg atakuje gracza!");
+        // Debug.Log("Wróg atakuje gracza!");
 
         // 🔥 Tworzymy prostokąt ataku
         GameObject attackEffect = GameObject.CreatePrimitive(PrimitiveType.Quad);

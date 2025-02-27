@@ -30,7 +30,7 @@ public class EnemyShooterAI : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.Initialize(currentHealth);
-            Debug.Log("Zainicjalizowano pasek HP dla: " + name + " z HP: " + currentHealth);
+            // Debug.Log("Zainicjalizowano pasek HP dla: " + name + " z HP: " + currentHealth);
         }
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -47,7 +47,7 @@ public class EnemyShooterAI : MonoBehaviour
         if (currentHealth < maxHealth)
         {
             currentHealth++;
-            Debug.Log(name + " odzyskał 1 HP! Aktualne HP: " + currentHealth);
+            // Debug.Log(name + " odzyskał 1 HP! Aktualne HP: " + currentHealth);
 
             if (healthBar != null)
             {
@@ -89,16 +89,16 @@ public class EnemyShooterAI : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        Debug.Log($"🔥 EnemyShooter otrzymał {damage} obrażeń! HP: {currentHealth}");
+        // Debug.Log($"🔥 EnemyShooter otrzymał {damage} obrażeń! HP: {currentHealth}");
 
         if (healthBar != null)
         {
-            Debug.Log("!!!Aktualizacja paska HP dla: " + name);
+            // Debug.Log("!!!Aktualizacja paska HP dla: " + name);
             healthBar.SetHealth(currentHealth);
         }
         else
         {
-            Debug.LogWarning("Brak komponentu HealthBar dla: " + name);
+            // Debug.LogWarning("Brak komponentu HealthBar dla: " + name);
         }
         
         if (currentHealth <= 0)
@@ -139,17 +139,17 @@ public class EnemyShooterAI : MonoBehaviour
 
     void ShootAtPredictedPosition()
     {
-        Debug.Log("Shooter shoot");
+        // Debug.Log("Shooter shoot");
 
         if (bulletPrefab == null)
         {
-            Debug.LogError("❌ Brak przypisanego `bulletPrefab` w EnemyShooterAI!");
+            // Debug.LogError("❌ Brak przypisanego `bulletPrefab` w EnemyShooterAI!");
             return;
         }
 
         if (firePoint == null)
         {
-            Debug.LogError("❌ Brak przypisanego `firePoint` w EnemyShooterAI!");
+            // Debug.LogError("❌ Brak przypisanego `firePoint` w EnemyShooterAI!");
             return;
         }
 
@@ -162,7 +162,7 @@ public class EnemyShooterAI : MonoBehaviour
         // Tworzenie nowego pocisku
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
 
-        Debug.Log("✅ Stworzono pocisk: " + bullet.name + " w " + firePoint.position);
+        // Debug.Log("✅ Stworzono pocisk: " + bullet.name + " w " + firePoint.position);
 
         // Upewniamy się, że pocisk ma skrypt EnemyBullet
         EnemyBullet bulletScript = bullet.GetComponent<EnemyBullet>();

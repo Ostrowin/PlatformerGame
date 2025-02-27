@@ -28,7 +28,7 @@ public class StrongBullet : MonoBehaviour
         EnemyAI enemyPatrol = collision.GetComponent<EnemyAI>();
         EnemyShooterAI enemyShooter = collision.GetComponent<EnemyShooterAI>();
 
-        if (enemyChase != null || enemyPatrol != null)
+        if (enemyChase != null || enemyPatrol != null || enemyShooter != null)
         {
             Debug.Log($"💥 SILNY pocisk trafił przeciwnika: {collision.gameObject.name}");
 
@@ -42,9 +42,18 @@ public class StrongBullet : MonoBehaviour
             }
 
             // 🔥 Większe obrażenia
-            if (enemyChase != null) enemyChase.TakeDamage(shootDamage);
-            if (enemyPatrol != null) enemyPatrol.TakeDamage(shootDamage);
-            if (enemyShooter != null) enemyShooter.TakeDamage(shootDamage);
+            if (enemyChase != null) {
+                Debug.Log("Mocny strzał w chasera");
+                enemyChase.TakeDamage(shootDamage);
+            }
+            if (enemyPatrol != null) {
+                Debug.Log("Mocny strzał w patrola");
+                enemyPatrol.TakeDamage(shootDamage);
+            }
+            if (enemyShooter != null) {
+                Debug.Log("Mocny strzał w shootera");
+                enemyShooter.TakeDamage(shootDamage);
+            }
 
             Destroy(gameObject); // 🔥 Pocisk znika po trafieniu
         }

@@ -31,7 +31,12 @@
 [x] heal every 3-5 sec
 [x] shooting
 [x] shooting enemy
-[] poprawić szybki atak, dodać dash
+[x] poprawić szybki atak, dodać dash
+
+## Enemies
+
+[] niech nie spadają z platform
+[]
 
 ## Mapy
 
@@ -65,6 +70,14 @@
 
 [x] Dodać box z wyświetlającymi się cooldownami
 
+# Poza projektem to do
+
+[] pogenerować tekstury... znaleźć ai?
+
 # LINKS
 
 https://pngimg.com/
+
+# Helpers
+
+dwebp in.webp -o out.png
