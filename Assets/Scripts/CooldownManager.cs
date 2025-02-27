@@ -41,7 +41,19 @@ public class CooldownManager : MonoBehaviour
         StartCoroutine(UpdateCooldown(abilityName, fillImage, duration));
     }
 
-    private IEnumerator UpdateCooldown(string abilityName, Image fillImage, float duration)
+    public void StartCooldown(string abilityName, Sprite icon)
+    {
+        if (activeCooldowns.ContainsKey(abilityName)) return;
+
+        GameObject cooldownUI = Instantiate(cooldownPrefab, cooldownContainer);
+        cooldownUI.transform.Find("Icon").GetComponent<Image>().sprite = icon;
+        activeCooldowns[abilityName] = cooldownUI;
+
+        ReorderCooldowns(); // 🔄 Przesuń resztę cooldownów
+    }
+
+
+    public IEnumerator UpdateCooldown(string abilityName, Image fillImage, float duration)
     {
         float timePassed = 0;
         while (timePassed < duration)
@@ -60,14 +72,16 @@ public class CooldownManager : MonoBehaviour
             Destroy(cooldownUI);
             // Debug.Log($"🗑️ Usunięto cooldown {abilityName}. Aktywne cooldowny po usunięciu: {activeCooldowns.Count}");
         }
-        else
-        {
-            // Debug.LogError($"❌ ERROR: Próbowano usunąć cooldown {abilityName}, ale nie było go w activeCooldowns!");
-        }
-
-        // yield return new WaitForEndOfFrame(); // 🔥 Upewnia się, że usunięcie nastąpi na koniec klatki
 
         ReorderCooldowns(); // 🔄 Przesuń resztę cooldownów
+    }
+
+    public void UpdateCooldown(string abilityName, float percentage)
+    {
+        if (activeCooldowns.ContainsKey(abilityName))
+        {
+            activeCooldowns[abilityName].transform.Find("Fill").GetComponent<Image>().fillAmount = percentage;
+        }
     }
 
     private void ReorderCooldowns()
@@ -84,5 +98,15 @@ public class CooldownManager : MonoBehaviour
             index++;
             Debug.Log("index: " + index);
         }
+    }
+
+    public void RemoveCooldown(string abilityName)
+    {
+        if (activeCooldowns.ContainsKey(abilityName))
+        {
+            Destroy(activeCooldowns[abilityName]);
+            activeCooldowns.Remove(abilityName);
+        }
+        ReorderCooldowns();
     }
 }

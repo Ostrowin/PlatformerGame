@@ -10,6 +10,7 @@
 [] sword
 [] magic
 [] Pobrać peengi od swipów
+[] grafika dialogów
 
 ## Story
 
@@ -37,7 +38,7 @@
 
 ## Dodatkowo
 
-[] skoki od ściany w górę / wspinaczka
+[x] skoki od ściany w górę / wspinaczka
 
 ## Muzyka
 
@@ -61,8 +62,7 @@
 
 ## Plansza
 
-[] Dodać box z wyświetlającymi się cooldownami
-[]
+[x] Dodać box z wyświetlającymi się cooldownami
 
 # LINKS
 

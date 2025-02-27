@@ -68,6 +68,7 @@
     <Compile Include="Assets/Scripts/ParallaxEffect.cs" />
     <Compile Include="Assets/Scripts/EnemyChaseAI.cs" />
     <Compile Include="Assets/Scripts/Bullet.cs" />
+    <Compile Include="Assets/Scripts/SprintHandler.cs" />
     <Compile Include="Assets/Scripts/EnemyBullet.cs" />
     <Compile Include="Assets/Scripts/KeyCombinationManager.cs" />
     <Compile Include="Assets/Scripts/EnemyAI.cs" />
