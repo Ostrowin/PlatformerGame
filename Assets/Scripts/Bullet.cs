@@ -31,14 +31,10 @@ public class Bullet : MonoBehaviour
         {
             Debug.Log("💥 Pocisk trafił przeciwnika!");
 
-            // 🔥 Sprawdź, czy przeciwnik ma skrypt HP
-            EnemyAI enemy = collision.GetComponent<EnemyAI>();
-            EnemyChaseAI enemyChase = collision.GetComponent<EnemyChaseAI>();
-            EnemyShooterAI enemyShooter = collision.GetComponent<EnemyShooterAI>();
+            // 🔥 Sprawdź, czy przeciwnik ma skrypt zdrowia
+            EnemyHealth enemyHealth = collision.GetComponent<EnemyHealth>();
 
-            if (enemy != null) enemy.TakeDamage(shootDamage); // 🔥 Zadaj 1 dmg wrogowi patrolującemu
-            if (enemyChase != null) enemyChase.TakeDamage(shootDamage); // 🔥 Zadaj 1 dmg wrogowi ścigającemu
-            if (enemyShooter != null) enemyShooter.TakeDamage(shootDamage); // 🔥 Zadaj 1 dmg wrogowi ścigającemu
+            if (enemyHealth != null) enemyHealth.TakeDamage(shootDamage); 
 
             Destroy(gameObject); // 🔥 Pocisk znika po trafieniu
         }

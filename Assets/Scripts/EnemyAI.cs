@@ -71,7 +71,7 @@ public class EnemyAI : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             // Debug.Log("Wróg zadaje obrażenia graczowi!");
-            collision.gameObject.GetComponent<PlayerMovement>().TakeDamage(1, transform);
+            collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(1);
         }
     }
 

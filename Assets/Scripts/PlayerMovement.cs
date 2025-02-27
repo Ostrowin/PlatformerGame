@@ -26,11 +26,11 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask enemyLayers;
     
     // ======================== Zdrowie ========================
-    private HealthBar healthBar;
-    public int maxHealth = 5;
-    private int currentHealth;
-    private bool isInvincible = false;
-    public float invincibilityDuration = 1f;
+    // private HealthBar healthBar;
+    // public int maxHealth = 5;
+    // private int currentHealth;
+    // private bool isInvincible = false;
+    // public float invincibilityDuration = 1f;
     public float knockbackForce = 5f;
     private SpriteRenderer spriteRenderer;
     public float regenTime = 3f;
@@ -49,16 +49,16 @@ public class PlayerMovement : MonoBehaviour
             sprintHandler = gameObject.AddComponent<SprintHandler>();
         }
 
-        currentHealth = maxHealth;
+        // currentHealth = maxHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        healthBar = GetComponentInChildren<HealthBar>();
+        // healthBar = GetComponentInChildren<HealthBar>();
 
-        if (healthBar != null)
-        {
-            healthBar.Initialize(maxHealth);
-        }
+        // if (healthBar != null)
+        // {
+        //     healthBar.Initialize(maxHealth);
+        // }
 
-        InvokeRepeating(nameof(RegenerateHealth), regenTime, regenTime);
+        // InvokeRepeating(nameof(RegenerateHealth), regenTime, regenTime);
     }
 
     void Update()
@@ -93,55 +93,55 @@ public class PlayerMovement : MonoBehaviour
         FixedUpdate();
     }
 
-    void RegenerateHealth()
-    {
-        if (currentHealth < maxHealth)
-        {
-            currentHealth++;
-            if (healthBar != null) healthBar.SetHealth(currentHealth);
-        }
-    }
+    // void RegenerateHealth()
+    // {
+    //     if (currentHealth < maxHealth)
+    //     {
+    //         currentHealth++;
+    //         if (healthBar != null) healthBar.SetHealth(currentHealth);
+    //     }
+    // }
 
-    public void TakeDamage(int damage, Transform enemy)
-    {
-        if (isInvincible) return;
-        currentHealth -= damage;
-        Debug.Log("Gracz otrzymał " + damage + " obrażeń! HP: " + currentHealth);
+    // public void TakeDamage(int damage, Transform enemy)
+    // {
+    //     if (isInvincible) return;
+    //     currentHealth -= damage;
+    //     Debug.Log("Gracz otrzymał " + damage + " obrażeń! HP: " + currentHealth);
         
-        if (healthBar != null)
-        {
-            healthBar.SetHealth(currentHealth);
-        }
+    //     if (healthBar != null)
+    //     {
+    //         healthBar.SetHealth(currentHealth);
+    //     }
 
-        if (currentHealth <= 0)
-        {
-            Debug.Log("Gracz zginął!");
-            Respawn();
-        }
+    //     if (currentHealth <= 0)
+    //     {
+    //         Debug.Log("Gracz zginął!");
+    //         Respawn();
+    //     }
 
-        Vector2 knockbackDirection = (transform.position - enemy.position).normalized;
-        rb.velocity = Vector2.zero;
-        rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+    //     Vector2 knockbackDirection = (transform.position - enemy.position).normalized;
+    //     rb.velocity = Vector2.zero;
+    //     rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
 
-        StartCoroutine(InvincibilityFrames());
-    }
+    //     StartCoroutine(InvincibilityFrames());
+    // }
 
-    IEnumerator InvincibilityFrames()
-    {
-        isInvincible = true;
-        float elapsedTime = 0f;
+    // IEnumerator InvincibilityFrames()
+    // {
+    //     isInvincible = true;
+    //     float elapsedTime = 0f;
 
-        while (elapsedTime < invincibilityDuration)
-        {
-            spriteRenderer.color = new Color(1, 1, 1, 0.5f);
-            yield return new WaitForSeconds(0.2f);
-            spriteRenderer.color = Color.red;
-            yield return new WaitForSeconds(0.2f);
-            elapsedTime += 0.4f;
-        }
+    //     while (elapsedTime < invincibilityDuration)
+    //     {
+    //         spriteRenderer.color = new Color(1, 1, 1, 0.5f);
+    //         yield return new WaitForSeconds(0.2f);
+    //         spriteRenderer.color = Color.red;
+    //         yield return new WaitForSeconds(0.2f);
+    //         elapsedTime += 0.4f;
+    //     }
 
-        isInvincible = false;
-    }
+    //     isInvincible = false;
+    // }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

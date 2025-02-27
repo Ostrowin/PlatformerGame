@@ -180,21 +180,11 @@ public class AttackHandler : MonoBehaviour
                 enemyRb.AddForce(knockback, ForceMode2D.Impulse);
             }
 
-            EnemyChaseAI enemyChase = enemy.GetComponent<EnemyChaseAI>();
-            EnemyAI enemyPatrol = enemy.GetComponent<EnemyAI>();
-            EnemyShooterAI enemyShooter = enemy.GetComponent<EnemyShooterAI>();
-
-            if (enemyChase != null)
+            // Pobieramy komponent zdrowia z obiektu, który trafiliśmy
+            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
             {
-                enemyChase.TakeDamage(damage);
-            }
-            else if (enemyPatrol != null)
-            {
-                enemyPatrol.TakeDamage(damage);
-            }
-            else if (enemyShooter != null)
-            {
-                enemyShooter.TakeDamage(damage);
+                enemyHealth.TakeDamage(damage);
             }
         }
     }

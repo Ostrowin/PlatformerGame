@@ -161,10 +161,10 @@ public class EnemyChaseAI : MonoBehaviour
         Destroy(attackEffect, 0.2f); // Usuwamy po 0.2 sekundy
         if (player != null)
         {
-            PlayerMovement playerScript = player.GetComponent<PlayerMovement>();
+            PlayerHealth playerScript = player.GetComponent<PlayerHealth>();
             if (playerScript != null)
             {
-                playerScript.TakeDamage(attackDamage, transform);
+                playerScript.TakeDamage(attackDamage);
             }
         }
 

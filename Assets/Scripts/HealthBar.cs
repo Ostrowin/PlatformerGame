@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Image healthBarFill; // Pasek zdrowia (zielony)
+    public Image healthBarFill;
     private float maxHealth;
     private float currentHealth;
 
@@ -16,8 +16,7 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealth(float health)
     {
-        currentHealth = health;
-        // Debug.Log("Nowe HP: " + currentHealth);
+        currentHealth = Mathf.Clamp(health, 0, maxHealth); // 🔥 Zapobiega błędom
         UpdateHealthBar();
     }
 
@@ -26,7 +25,10 @@ public class HealthBar : MonoBehaviour
         if (healthBarFill != null)
         {
             healthBarFill.fillAmount = currentHealth / maxHealth;
-            // Debug.Log("Nowa wartość fillAmount: " + healthBarFill.fillAmount);
+        }
+        else
+        {
+            Debug.LogError("❌ HealthBarFill nie przypisany w Inspectorze!");
         }
     }
 }

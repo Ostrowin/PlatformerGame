@@ -30,10 +30,10 @@ public class EnemyBullet : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            PlayerMovement playerScript = collision.GetComponent<PlayerMovement>();
+            PlayerHealth playerScript = collision.GetComponent<PlayerHealth>();
             if (playerScript != null)
             {
-                playerScript.TakeDamage(shootDamage, transform);
+                playerScript.TakeDamage(shootDamage);
                 Debug.Log("🔥 Gracz dostał obrażenia: " + shootDamage);
             }
 

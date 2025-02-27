@@ -22,38 +22,16 @@ public class StrongBullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player")) return; // ❌ Nie niszcz pocisku, jeśli trafi gracza
+        if (collision.CompareTag("Player")) return; // ❌ Nie usuwamy pocisku, jeśli trafi gracza
 
-        EnemyChaseAI enemyChase = collision.GetComponent<EnemyChaseAI>();
-        EnemyAI enemyPatrol = collision.GetComponent<EnemyAI>();
-        EnemyShooterAI enemyShooter = collision.GetComponent<EnemyShooterAI>();
-
-        if (enemyChase != null || enemyPatrol != null || enemyShooter != null)
+        if (collision.CompareTag("Enemy")) 
         {
-            Debug.Log($"💥 SILNY pocisk trafił przeciwnika: {collision.gameObject.name}");
+            Debug.Log("💥 Pocisk trafił przeciwnika!");
 
-            // 🔥 Silniejszy odrzut przeciwnika
-            Rigidbody2D enemyRb = collision.GetComponent<Rigidbody2D>();
-            if (enemyRb != null)
-            {
-                Vector2 knockback = new Vector2(direction.x * 6f, 3f);
-                enemyRb.velocity = Vector2.zero;
-                enemyRb.AddForce(knockback, ForceMode2D.Impulse);
-            }
+            // 🔥 Sprawdź, czy przeciwnik ma skrypt zdrowia
+            EnemyHealth enemyHealth = collision.GetComponent<EnemyHealth>();
 
-            // 🔥 Większe obrażenia
-            if (enemyChase != null) {
-                Debug.Log("Mocny strzał w chasera");
-                enemyChase.TakeDamage(shootDamage);
-            }
-            if (enemyPatrol != null) {
-                Debug.Log("Mocny strzał w patrola");
-                enemyPatrol.TakeDamage(shootDamage);
-            }
-            if (enemyShooter != null) {
-                Debug.Log("Mocny strzał w shootera");
-                enemyShooter.TakeDamage(shootDamage);
-            }
+            if (enemyHealth != null) enemyHealth.TakeDamage(shootDamage); 
 
             Destroy(gameObject); // 🔥 Pocisk znika po trafieniu
         }

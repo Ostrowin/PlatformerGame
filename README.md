@@ -36,7 +36,6 @@
 ## Enemies
 
 [] niech nie spadają z platform
-[]
 
 ## Mapy
 
