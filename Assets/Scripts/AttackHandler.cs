@@ -24,6 +24,10 @@ public class AttackHandler : MonoBehaviour
     public float strongShootCooldown = 8f;
     public float shootCooldown = 2f;
 
+    public float dashSpeed = 20f;
+    public float dashDuration = 0.15f;
+    public float dashCooldown = 0.2f;
+
     private CooldownManager cooldownManager;
     public Sprite strongAttackIcon; // Ikona dla silnego ataku
     public Sprite weakAttackIcon;   // Ikona dla szybkiego ataku
@@ -33,12 +37,14 @@ public class AttackHandler : MonoBehaviour
     public GameObject bulletPrefab; // 🔫 Prefab pocisku
     public GameObject strongBulletPrefab; // 🔫 Prefab pocisku
     private GameObject player;
+    private Rigidbody2D rb;
     
     void Start()
     {
         var keyManager = FindObjectOfType<KeyCombinationManager>();
         cooldownManager = FindObjectOfType<CooldownManager>();
         player = GameObject.FindGameObjectWithTag("Player"); // 🔥 Szuka gracza w scenie
+        rb = player.GetComponent<Rigidbody2D>();
 
         // 🔥 Silny atak w lewo i prawo
         keyManager.RegisterCombination(new KeyCode[] { KeyCode.W, KeyCode.LeftArrow, KeyCode.E }, () => StrongAttack(Vector2.left));
@@ -48,8 +54,8 @@ public class AttackHandler : MonoBehaviour
         keyManager.RegisterCombination(new KeyCode[] { KeyCode.W, KeyCode.UpArrow, KeyCode.E }, () => StrongAttack(Vector2.up));
 
         // 🔥 Słabszy atak o dalszym zasięgu w bok
-        keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.LeftArrow, KeyCode.E }, () => WeakAttack(Vector2.left));
-        keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.RightArrow, KeyCode.E }, () => WeakAttack(Vector2.right));
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.LeftArrow, KeyCode.E }, () => StartCoroutine(WeakAttackWithDash(Vector2.left)));
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.RightArrow, KeyCode.E }, () => StartCoroutine(WeakAttackWithDash(Vector2.right)));
 
         // 🔥 Słabszy atak o dalszym zasięgu w górę
         keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.UpArrow, KeyCode.E }, () => WeakAttack(Vector2.up));
@@ -89,15 +95,16 @@ public class AttackHandler : MonoBehaviour
 
     void WeakAttack(Vector2 direction)
     {
-        if (isPerformingSpecialAttack || !canWeakAttack) return;
+        // if (isPerformingSpecialAttack || !canWeakAttack) return;
 
-        isPerformingSpecialAttack = true;
-        canWeakAttack = false;
+        // isPerformingSpecialAttack = true;
+        // canWeakAttack = false;
         // Debug.Log($"Słaby atak w kierunku {direction}");
+
         cooldownManager.StartCooldown("Weak Attack", weakAttackCooldown, weakAttackIcon);
         PerformAttack(direction, weakAttackRange, attackForce / 2, new Color(0.5f, 0f, 0.5f), 1);
 
-        StartCoroutine(ResetSpecialAttack());
+        // StartCoroutine(ResetSpecialAttack());
         StartCoroutine(ResetAttackCooldown(nameof(canWeakAttack), weakAttackCooldown));
     }
 
@@ -250,5 +257,30 @@ public class AttackHandler : MonoBehaviour
         // 🔥 Cooldown na mocny strzał
         cooldownManager.StartCooldown("StrongShoot", strongShootCooldown, strongShootIcon);
         StartCoroutine(ResetAttackCooldown(nameof(canStrongShoot), strongShootCooldown));
+    }
+
+    IEnumerator WeakAttackWithDash(Vector2 direction)
+    {
+        if (isPerformingSpecialAttack || !canWeakAttack) yield break;
+        
+        isPerformingSpecialAttack = true;
+        canWeakAttack = false;
+        StartCoroutine(Dash(direction));
+        yield return new WaitForSeconds(dashDuration);
+        WeakAttack(direction);
+        isPerformingSpecialAttack = false;
+    }
+
+    IEnumerator Dash(Vector2 direction)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < dashDuration)
+        {
+            rb.velocity = direction * dashSpeed;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        rb.velocity = Vector2.zero;
+        yield return new WaitForSeconds(dashCooldown);
     }
 }

@@ -3417,6 +3417,9 @@ MonoBehaviour:
   weakAttackCooldown: 1
   strongShootCooldown: 4
   shootCooldown: 2
+  dashSpeed: 30
+  dashDuration: 0.1
+  dashCooldown: 0.2
   strongAttackIcon: {fileID: 21300000, guid: 14e4c45cb9e8e1fefa596b6e3d0f0a9f, type: 3}
   weakAttackIcon: {fileID: 21300000, guid: c867244a3d83ebbd0b72898ca90ad027, type: 3}
   strongShootIcon: {fileID: 21300000, guid: 5bea85c0e8f0e4af58d332954755d527, type: 3}

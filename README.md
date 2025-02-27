@@ -31,6 +31,7 @@
 [x] heal every 3-5 sec
 [x] shooting
 [x] shooting enemy
+[] poprawić szybki atak, dodać dash
 
 ## Mapy
 
@@ -57,7 +58,7 @@
 
 [x] wspinaczka / odskok
 [x] dash
-[] szybsze bieganie
+[x] szybsze bieganie
 [] blokada poruszania się lewo w prawo przy skoku
 
 ## Plansza
