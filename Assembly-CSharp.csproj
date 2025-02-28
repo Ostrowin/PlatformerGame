@@ -66,31 +66,30 @@
   <ItemGroup>
     <Compile Include="Assets/Scripts/Enemies/EnemyTouchDamage.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyShooter.cs" />
+    <Compile Include="Assets/Scripts/Player/PlayerHealthRegen.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyGhost.cs" />
-    <Compile Include="Assets/Scripts/EnemyShooterAI.cs" />
     <Compile Include="Assets/Scripts/ParallaxEffect.cs" />
-    <Compile Include="Assets/Scripts/EnemyChaseAI.cs" />
+    <Compile Include="Assets/Scripts/Player/PlayerHealth.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyAttack.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyShoot.cs" />
-    <Compile Include="Assets/Scripts/Bullet.cs" />
     <Compile Include="Assets/Scripts/SprintHandler.cs" />
-    <Compile Include="Assets/Scripts/EnemyBullet.cs" />
+    <Compile Include="Assets/Scripts/Player/PlayerUprightBalance.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyHealth.cs" />
+    <Compile Include="Assets/Scripts/Player/PlayerAttack.cs" />
     <Compile Include="Assets/Scripts/KeyCombinationManager.cs" />
-    <Compile Include="Assets/Scripts/EnemyAI.cs" />
     <Compile Include="Assets/Scripts/HealthBar.cs" />
     <Compile Include="Assets/Scripts/CameraFollow.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyEdgeDetection.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyChaser.cs" />
     <Compile Include="Assets/Scripts/AttackHandler.cs" />
-    <Compile Include="Assets/Scripts/PlayerHealth.cs" />
     <Compile Include="Assets/Scripts/DashHandler.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyChase.cs" />
+    <Compile Include="Assets/Scripts/Player/PlayerJump.cs" />
     <Compile Include="Assets/Scripts/CooldownManager.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyPatrol.cs" />
+    <Compile Include="Assets/Scripts/Player/PlayerMovement.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyKeepDistance.cs" />
-    <Compile Include="Assets/Scripts/StrongBullet.cs" />
-    <Compile Include="Assets/Scripts/PlayerMovement.cs" />
+    <Compile Include="Assets/Scripts/Projectiles/BulletBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

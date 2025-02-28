@@ -211,7 +211,7 @@ public class AttackHandler : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
 
         // 🔥 Przekazujemy kierunek do pocisku
-        bullet.GetComponent<Bullet>().Initialize(shootDirection);
+        bullet.GetComponent<BulletBase>().Initialize(shootDirection);
 
 
         // 🔥 Cooldown na strzał
@@ -233,7 +233,7 @@ public class AttackHandler : MonoBehaviour
 
         // 🔥 Tworzenie mocnego pocisku
         GameObject bullet = Instantiate(strongBulletPrefab, spawnPosition, Quaternion.identity);
-        bullet.GetComponent<StrongBullet>().Initialize(shootDirection);
+        bullet.GetComponent<BulletBase>().Initialize(shootDirection);
 
         // 🔥 Gracz lekko odrzucony w przeciwną stronę
         Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();

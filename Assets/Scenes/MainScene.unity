@@ -1350,6 +1350,9 @@ MonoBehaviour:
   firePoint: {fileID: 828867435}
   bulletSpeed: 10
   fireRate: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &699407585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3305,11 +3308,14 @@ GameObject:
   - component: {fileID: 1313708648}
   - component: {fileID: 1313708647}
   - component: {fileID: 1313708646}
-  - component: {fileID: 1313708650}
   - component: {fileID: 1313708651}
   - component: {fileID: 1313708652}
   - component: {fileID: 1313708653}
   - component: {fileID: 1313708654}
+  - component: {fileID: 1313708656}
+  - component: {fileID: 1313708655}
+  - component: {fileID: 1313708658}
+  - component: {fileID: 1313708659}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -3461,38 +3467,6 @@ Transform:
   - {fileID: 1321626089}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1313708650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313708643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cb72ecd99dd6b6abb5b4de9f8949772, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDashing: 0
-  jumpForce: 15
-  wallCheckLeft: {fileID: 1896921072}
-  wallCheckRight: {fileID: 1407820910}
-  wallCheckRadius: 0.2
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  wallSlideSpeed: 1
-  wallJumpForce: 15
-  wallJumpXForce: 15
-  attackPoint: {fileID: 301080388}
-  attackRange: 1
-  attackForce: 5
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  knockbackForce: 5
-  regenTime: 3
-  spawnPoint: {fileID: 2117811694}
 --- !u!114 &1313708651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3575,6 +3549,72 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   healthBar: {fileID: 888948422}
+--- !u!114 &1313708655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313708643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e98b80a87f135be49ae54d839845492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 15
+  wallCheckLeft: {fileID: 1896921072}
+  wallCheckRight: {fileID: 1407820910}
+  wallCheckRadius: 0.2
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  wallSlideSpeed: 1
+  wallJumpForce: 10
+  wallJumpXForce: 15
+--- !u!114 &1313708656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313708643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b3e165e1999f57be986435c837dd1a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPoint: {fileID: 301080388}
+  attackRange: 1
+  attackForce: 5
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &1313708658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313708643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f758abca1241c53f582648aad056504d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  balanceSpeed: 10
+--- !u!114 &1313708659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313708643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3984d75db9526a6a19e611400dfb3170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDashing: 0
 --- !u!1 &1321626088
 GameObject:
   m_ObjectHideFlags: 0
@@ -9164,6 +9204,9 @@ MonoBehaviour:
   firePoint: {fileID: 878338877}
   bulletSpeed: 10
   fireRate: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &1732025486
 MonoBehaviour:
   m_ObjectHideFlags: 0
