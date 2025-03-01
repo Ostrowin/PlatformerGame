@@ -8,13 +8,15 @@ public class DashHandler : MonoBehaviour
     public float dashCooldown = 1.5f;
     private bool canDash = true;
     public ParticleSystem dashEffect;
-    private CooldownManager cooldownManager;
+    private CooldownSystem cooldownSystem;
+    private CooldownUI cooldownUI;
     public Sprite dashIcon; // Ikona dla Dasha
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        cooldownManager = FindObjectOfType<CooldownManager>();
+        cooldownSystem = FindObjectOfType<CooldownSystem>();
+        cooldownUI = FindObjectOfType<CooldownUI>();
 
         FindObjectOfType<KeyCombinationManager>().RegisterCombination(
             new KeyCode[] { KeyCode.A, KeyCode.LeftArrow, KeyCode.D }, 
@@ -32,8 +34,8 @@ public class DashHandler : MonoBehaviour
         if (!canDash) return;
 
         canDash = false;
-        // Debug.Log("Dash w stronę: " + (direction == -1 ? "lewo" : "prawo"));
-        cooldownManager.StartCooldown("Dash", dashCooldown, dashIcon); // 🔥 Dodajemy ikonę 
+        cooldownSystem.StartCooldown("Dash", dashCooldown);
+        cooldownUI.AddCooldown("Dash", dashCooldown, dashIcon);
 
         PlayerMovement player = GetComponent<PlayerMovement>();
         player.isDashing = true;
@@ -41,21 +43,12 @@ public class DashHandler : MonoBehaviour
         rb.gravityScale = 0; // 🔥 Wyłączamy grawitację na czas Dasha
         rb.velocity = new Vector2(direction * dashForce, 0); // Dash poziomy
         
-        // 🔥 Włącz efekt cząsteczkowy
-        if (dashEffect != null)
-        {
-            dashEffect.Play();
-        }
+        // 🔥 Efekt cząsteczkowy
+        if (dashEffect != null) dashEffect.Play();
 
         StartCoroutine(EndDash());
     }
 
-    IEnumerator DashCooldown()
-    {
-        yield return new WaitForSeconds(dashCooldown);
-        canDash = true;
-    }
-    
     IEnumerator EndDash()
     {
         yield return new WaitForSeconds(0.2f); // Czas trwania Dasha
@@ -65,13 +58,9 @@ public class DashHandler : MonoBehaviour
         rb.velocity = Vector2.zero; // Zatrzymanie gracza po Dashu
 
         // 🔥 Wyłącz efekt cząsteczkowy
-        if (dashEffect != null)
-        {
-            dashEffect.Stop();
-        }
-        // 🔥 Czekamy na cooldown zanim można wykonać kolejny Dash
+        if (dashEffect != null) dashEffect.Stop();
+
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
-        // Debug.Log("Dash gotowy do użycia!");
     }
 }

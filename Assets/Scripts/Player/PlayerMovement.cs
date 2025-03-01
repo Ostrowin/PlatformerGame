@@ -20,7 +20,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
-        float move = Input.GetAxisRaw("Horizontal");
+        // 🔥 Usuwamy obsługę `A` i `D`, zostawiamy tylko strzałki
+        float move = 0f;
+        if (Input.GetKey(KeyCode.LeftArrow)) move = -1f;
+        if (Input.GetKey(KeyCode.RightArrow)) move = 1f;
+
         rb.velocity = new Vector2(move * sprintHandler.GetCurrentSpeed(), rb.velocity.y);
     }
 }

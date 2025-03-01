@@ -13,7 +13,6 @@ public class PlayerHealthRegen : MonoBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         if (playerHealth == null)
         {
-            Debug.LogError("❌ Brak komponentu PlayerHealth w PlayerHealthRegen!");
             enabled = false;
             return;
         }
@@ -30,7 +29,6 @@ public class PlayerHealthRegen : MonoBehaviour
             if (canRegenerate && playerHealth.GetCurrentHealth() < playerHealth.maxHealth)
             {
                 playerHealth.Heal(regenAmount);
-                Debug.Log($"💚 Zregenerowano {regenAmount} HP! Aktualne HP: {playerHealth.GetCurrentHealth()}");
             }
         }
     }

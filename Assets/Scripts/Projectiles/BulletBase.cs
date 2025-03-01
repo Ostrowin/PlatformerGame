@@ -21,7 +21,7 @@ public class BulletBase : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         if (rb == null)
         {
-            Debug.LogError("❌ Brak Rigidbody2D w BulletBase!");
+            // Debug.LogError("❌ Brak Rigidbody2D w BulletBase!");
             return;
         }
 
@@ -37,14 +37,14 @@ public class BulletBase : MonoBehaviour
         rb.gravityScale = gravityScale;
         rb.velocity = direction * speed;
 
-        Debug.Log($"🚀 Pocisk wystrzelony! Kierunek: {direction}, Prędkość: {rb.velocity}");
+        // Debug.Log($"🚀 Pocisk wystrzelony! Kierunek: {direction}, Prędkość: {rb.velocity}");
 
         Destroy(gameObject, lifespan);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"🎯 Pocisk uderzył w {collision.gameObject.name}");
+        // Debug.Log($"🎯 Pocisk uderzył w {collision.gameObject.name}");
 
         if (collision.CompareTag("Player") && canHitPlayer)
         {
@@ -52,7 +52,7 @@ public class BulletBase : MonoBehaviour
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);
-                Debug.Log($"🔥 Gracz otrzymał {damage} obrażeń!");
+                // Debug.Log($"🔥 Gracz otrzymał {damage} obrażeń!");
             }
             Destroy(gameObject);
         }
@@ -63,7 +63,7 @@ public class BulletBase : MonoBehaviour
             if (enemyHealth != null)
             {
                 enemyHealth.TakeDamage(damage);
-                Debug.Log($"💥 Pocisk trafił wroga i zadał {damage} obrażeń!");
+                // Debug.Log($"💥 Pocisk trafił wroga i zadał {damage} obrażeń!");
             }
             Destroy(gameObject);
         }

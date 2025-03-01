@@ -6,8 +6,9 @@ public class SprintHandler : MonoBehaviour
     public float sprintSpeed = 8f;
     private float currentSpeed;
     private Rigidbody2D rb;
-    private CooldownManager cooldownManager;
-    public Sprite staminaIcon; // Ikona staminy
+    private CooldownSystem cooldownSystem;
+    private CooldownUI cooldownUI;
+    public Sprite staminaIcon;
 
     private bool isSprinting;
     private bool staminaCooldownActive = false;
@@ -22,7 +23,8 @@ public class SprintHandler : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        cooldownManager = FindObjectOfType<CooldownManager>();
+        cooldownSystem = FindObjectOfType<CooldownSystem>();
+        cooldownUI = FindObjectOfType<CooldownUI>();
         currentSpeed = normalSpeed;
         currentStamina = maxStamina;
     }
@@ -31,7 +33,6 @@ public class SprintHandler : MonoBehaviour
     {
         HandleSprint();
         RegenerateStamina();
-        UpdateCooldownUI();
     }
 
     private void HandleSprint()
@@ -46,12 +47,15 @@ public class SprintHandler : MonoBehaviour
                 isSprinting = true;
                 currentSpeed = sprintSpeed;
                 currentStamina -= staminaDrainRate * Time.deltaTime;
-                
+
+
                 if (!staminaCooldownActive)
                 {
-                    cooldownManager.StartCooldown("Stamina", staminaIcon);
+                    cooldownSystem.StartCooldown("Stamina");
+                    cooldownUI.AddCooldown("Stamina", staminaIcon);
                     staminaCooldownActive = true;
                 }
+                UpdateCooldown();
             }
             else
             {
@@ -72,22 +76,22 @@ public class SprintHandler : MonoBehaviour
         if (!isSprinting && currentStamina < maxStamina)
         {
             currentStamina += staminaRegenRate * Time.deltaTime;
+
+            UpdateCooldown();
+
             if (currentStamina >= maxStamina)
             {
                 canSprint = true;
-                cooldownManager.RemoveCooldown("Stamina");
                 staminaCooldownActive = false;
+                cooldownSystem.RemoveCooldown("Stamina");
             }
         }
     }
 
-    private void UpdateCooldownUI()
+    private void UpdateCooldown()
     {
-        if (staminaCooldownActive)
-        {
-            float percentage = currentStamina / maxStamina;
-            cooldownManager.UpdateCooldown("Stamina", percentage);
-        }
+        float percentage = currentStamina / maxStamina;
+        cooldownSystem.SetCooldownPercentage("Stamina", percentage);
     }
 
     public float GetCurrentSpeed()
