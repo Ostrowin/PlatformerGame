@@ -20,7 +20,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
-        // 🔥 Usuwamy obsługę `A` i `D`, zostawiamy tylko strzałki
         float move = 0f;
         if (Input.GetKey(KeyCode.LeftArrow)) move = -1f;
         if (Input.GetKey(KeyCode.RightArrow)) move = 1f;

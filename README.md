@@ -58,6 +58,15 @@
 [] Pogrupować main Scene w foldery?
 [] Rozbić na pliki
 
+### Refactor 1
+
+[] edge detection -> przeciwnicy spadają
+[x] fix reorder cooldown
+[x] fix ataki key combination
+[] fix dash dla szybkiego ataku q>e
+[x] fix kierunek strzału
+[x] wyciągnięcie lastMoveDirection do osobnego komponentu?
+
 ## Poruszanie
 
 [x] wspinaczka / odskok

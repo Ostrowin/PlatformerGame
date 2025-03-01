@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Assets/Scripts/Enemies/EnemyTouchDamage.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyShooter.cs" />
+    <Compile Include="Assets/Scripts/Player/PlayerDirection.cs" />
     <Compile Include="Assets/Scripts/Player/PlayerHealthRegen.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyGhost.cs" />
     <Compile Include="Assets/Scripts/ParallaxEffect.cs" />
@@ -76,7 +77,6 @@
     <Compile Include="Assets/Scripts/Enemies/EnemyShoot.cs" />
     <Compile Include="Assets/Scripts/SprintHandler.cs" />
     <Compile Include="Assets/Scripts/Player/PlayerUprightBalance.cs" />
-    <Compile Include="Assets/Scripts/Player/PlayerAttack.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyHealth.cs" />
     <Compile Include="Assets/Scripts/KeyCombinationManager.cs" />
     <Compile Include="Assets/Scripts/HealthBar.cs" />

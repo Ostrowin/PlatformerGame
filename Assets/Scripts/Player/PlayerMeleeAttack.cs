@@ -18,17 +18,35 @@ public class PlayerMeleeAttack : MonoBehaviour
     private CooldownSystem cooldownSystem;
     private CooldownUI cooldownUI;
 
+    private KeyCombinationManager keyManager;
+    private PlayerDirection playerDirection;
+
     private void Start()
     {
         cooldownSystem = FindObjectOfType<CooldownSystem>();
         cooldownUI = FindObjectOfType<CooldownUI>();
+
+        keyManager = FindObjectOfType<KeyCombinationManager>();
+        playerDirection = GetComponent<PlayerDirection>();
+
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.W, KeyCode.LeftArrow, KeyCode.E }, () => PerformStrongAttack(Vector2.left));
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.W, KeyCode.RightArrow, KeyCode.E }, () => PerformStrongAttack(Vector2.right));
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.W, KeyCode.UpArrow, KeyCode.E }, () => PerformStrongAttack(Vector2.up));
+
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.LeftArrow, KeyCode.E }, () => PerformWeakAttack(Vector2.left));
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.RightArrow, KeyCode.E }, () => PerformWeakAttack(Vector2.right));
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.UpArrow, KeyCode.E }, () => PerformWeakAttack(Vector2.up));
+
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.E }, () => PerformBasicAttack());
     }
 
-    public void PerformBasicAttack(Vector2 direction)
+    public void PerformBasicAttack()
     {
+        Debug.Log("PerformBasicAttack");
         if (cooldownSystem.IsOnCooldown("Basic Attack")) return;
-
-        PerformAttack(direction, 1f, attackForce / 2, 2);
+        
+        Vector2 attackDirection = playerDirection.lastMoveDirection;
+        PerformAttack(attackDirection, 1f, attackForce / 2, 2);
         cooldownSystem.StartCooldown("Basic Attack", basicAttackCooldown);
     }
 
@@ -52,6 +70,7 @@ public class PlayerMeleeAttack : MonoBehaviour
 
     private void PerformAttack(Vector2 direction, float range, float force, int damage)
     {
+        Debug.Log("PerformAttack");
         Vector3 attackPosition = transform.position + (Vector3)(direction * range);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, range, enemyLayers);
 

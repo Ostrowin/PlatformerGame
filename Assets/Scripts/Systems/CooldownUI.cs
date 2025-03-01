@@ -22,6 +22,7 @@ public class CooldownUI : MonoBehaviour
         GameObject cooldownUI = Instantiate(cooldownPrefab, cooldownContainer);
         cooldownUI.transform.Find("Icon").GetComponent<Image>().sprite = icon;
         activeCooldowns[abilityName] = cooldownUI;
+        ReorderCooldowns();
     }
 
     public void AddCooldown(string abilityName, Sprite icon)
@@ -36,6 +37,7 @@ public class CooldownUI : MonoBehaviour
         cooldownUI.transform.Find("Icon").GetComponent<Image>().sprite = icon;
         activeCooldowns[abilityName] = cooldownUI;
         UpdateCooldownUI(abilityName, 100f);
+        ReorderCooldowns();
     }
 
     private void UpdateCooldownUI(string abilityName, float percentage)
@@ -52,6 +54,21 @@ public class CooldownUI : MonoBehaviour
         {
             Destroy(activeCooldowns[abilityName]);
             activeCooldowns.Remove(abilityName);
+            ReorderCooldowns();
+        }
+    }
+
+    private void ReorderCooldowns()
+    {
+        int index = 0;
+        foreach (var cooldown in activeCooldowns.Values)
+        {
+            RectTransform rect = cooldown.GetComponent<RectTransform>();
+            if (rect != null)
+            {
+                rect.anchoredPosition = new Vector2(-index * 70, 0);
+            }
+            index++;
         }
     }
 }

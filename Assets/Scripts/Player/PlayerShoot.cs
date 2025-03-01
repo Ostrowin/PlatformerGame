@@ -13,10 +13,18 @@ public class PlayerShoot : MonoBehaviour
     private CooldownSystem cooldownSystem;
     private CooldownUI cooldownUI;
 
+    private KeyCombinationManager keyManager;
+    private PlayerDirection playerDirection;
+
     private void Start()
     {
         cooldownSystem = FindObjectOfType<CooldownSystem>();
         cooldownUI = FindObjectOfType<CooldownUI>();
+        keyManager = FindObjectOfType<KeyCombinationManager>();
+        playerDirection = GetComponent<PlayerDirection>();
+
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.Q, KeyCode.E }, () => PerformShoot());
+        keyManager.RegisterCombination(new KeyCode[] { KeyCode.W, KeyCode.E }, () => PerformStrongShoot());
     }
 
     public void PerformShoot()
@@ -41,7 +49,7 @@ public class PlayerShoot : MonoBehaviour
     {
         if (bulletPrefab == null || firePoint == null) return;
 
-        Vector2 shootDirection = Vector2.right;
+        Vector2 shootDirection = playerDirection.lastMoveDirection;
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         bullet.GetComponent<BulletBase>().Initialize(shootDirection);
     }
