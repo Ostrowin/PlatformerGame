@@ -4,13 +4,14 @@
 
 [] parallax background
 [] animations player
-[] aniimations enemies
+[] animations enemies
 [] animations fighting
 [] tekstury
 [] sword
 [] magic
 [] Pobrać peengi od swipów
 [] grafika dialogów
+[] grafika ataków
 
 ## Story
 
@@ -60,10 +61,9 @@
 
 ### Refactor 1
 
-[] edge detection -> przeciwnicy spadają
 [x] fix reorder cooldown
 [x] fix ataki key combination
-[] fix dash dla szybkiego ataku q>e
+[x] fix dash dla szybkiego ataku q>e
 [x] fix kierunek strzału
 [x] wyciągnięcie lastMoveDirection do osobnego komponentu?
 

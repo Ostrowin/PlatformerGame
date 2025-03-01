@@ -1424,7 +1424,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 30
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0.8
@@ -3318,6 +3318,7 @@ GameObject:
   - component: {fileID: 1313708664}
   - component: {fileID: 1313708663}
   - component: {fileID: 1313708665}
+  - component: {fileID: 1313708666}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -3635,6 +3636,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb62aaacf58ba8c48a079a4e98669b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1313708666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313708643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe67d80b60dd20d86a0ee2a99cefeea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashSpeed: 20
+  dashDuration: 0.15
+  dashCooldown: 0.2
 --- !u!1 &1321626088
 GameObject:
   m_ObjectHideFlags: 0
@@ -9298,7 +9314,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 30
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0.8

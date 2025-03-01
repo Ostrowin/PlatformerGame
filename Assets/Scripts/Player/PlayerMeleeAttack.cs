@@ -20,6 +20,7 @@ public class PlayerMeleeAttack : MonoBehaviour
 
     private KeyCombinationManager keyManager;
     private PlayerDirection playerDirection;
+    private PlayerDash playerDash; 
 
     private void Start()
     {
@@ -28,6 +29,7 @@ public class PlayerMeleeAttack : MonoBehaviour
 
         keyManager = FindObjectOfType<KeyCombinationManager>();
         playerDirection = GetComponent<PlayerDirection>();
+        playerDash = GetComponent<PlayerDash>();
 
         keyManager.RegisterCombination(new KeyCode[] { KeyCode.W, KeyCode.LeftArrow, KeyCode.E }, () => PerformStrongAttack(Vector2.left));
         keyManager.RegisterCombination(new KeyCode[] { KeyCode.W, KeyCode.RightArrow, KeyCode.E }, () => PerformStrongAttack(Vector2.right));
@@ -63,9 +65,12 @@ public class PlayerMeleeAttack : MonoBehaviour
     {
         if (cooldownSystem.IsOnCooldown("Weak Attack")) return;
 
+        Debug.Log($"⚡ Wykonano słaby atak w kierunku {direction}");
+
+        playerDash.PerformDash(direction);
+        
+        PerformAttack(direction, 1.5f, attackForce / 2, 1);
         cooldownSystem.StartCooldown("Weak Attack", weakAttackCooldown);
-        cooldownUI.AddCooldown("Weak Attack", weakAttackCooldown, weakAttackIcon);
-        PerformAttack(direction, weakAttackRange, attackForce / 2, 1);
     }
 
     private void PerformAttack(Vector2 direction, float range, float force, int damage)
