@@ -22,6 +22,8 @@ public class PlayerMeleeAttack : MonoBehaviour
     private PlayerDirection playerDirection;
     private PlayerDash playerDash; 
 
+    public GameObject slashEffectPrefab;
+
     private void Start()
     {
         cooldownSystem = FindObjectOfType<CooldownSystem>();
@@ -77,6 +79,7 @@ public class PlayerMeleeAttack : MonoBehaviour
     {
         Debug.Log("PerformAttack");
         Vector3 attackPosition = transform.position + (Vector3)(direction * range);
+        ShowSlashEffect(attackPosition, playerDirection.lastMoveDirection.x > 0);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, range, enemyLayers);
 
         foreach (Collider2D enemy in hitEnemies)
@@ -94,4 +97,23 @@ public class PlayerMeleeAttack : MonoBehaviour
             }
         }
     }
+
+    private void ShowSlashEffect(Vector2 position, bool facingRight)
+    {
+        GameObject slash = Instantiate(slashEffectPrefab, position, Quaternion.identity);
+        
+        // Jeśli gracz patrzy w lewo, odwróć efekt
+        if (!facingRight)
+            slash.transform.localScale = new Vector3(-1, 1, 1);
+
+        // Uruchom Particle System
+        ParticleSystem ps = slash.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            ps.Play();
+        }
+
+        Destroy(slash, 0.3f); // Usuń efekt po czasie
+    }
+
 }

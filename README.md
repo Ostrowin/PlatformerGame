@@ -66,6 +66,7 @@
 [x] fix dash dla szybkiego ataku q>e
 [x] fix kierunek strzału
 [x] wyciągnięcie lastMoveDirection do osobnego komponentu?
+[] niewrażliwość po otrzymaniu obrażeń
 
 ## Poruszanie
 
