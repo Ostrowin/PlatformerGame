@@ -71,8 +71,9 @@ public class PlayerMeleeAttack : MonoBehaviour
 
         playerDash.PerformDash(direction);
         
-        PerformAttack(direction, 1.5f, attackForce / 2, 1);
         cooldownSystem.StartCooldown("Weak Attack", weakAttackCooldown);
+        cooldownUI.AddCooldown("Weak Attack", weakAttackCooldown, weakAttackIcon);
+        PerformAttack(direction, 1.5f, attackForce / 2, 1);
     }
 
     private void PerformAttack(Vector2 direction, float range, float force, int damage)

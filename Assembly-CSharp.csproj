@@ -71,6 +71,7 @@
     <Compile Include="Assets/Scripts/Enemies/EnemyGhost.cs" />
     <Compile Include="Assets/Scripts/ParallaxEffect.cs" />
     <Compile Include="Assets/Scripts/Player/PlayerHealth.cs" />
+    <Compile Include="Assets/Scripts/Systems/AmbientSound.cs" />
     <Compile Include="Assets/Scripts/Systems/CooldownUI.cs" />
     <Compile Include="Assets/Scripts/Player/PlayerMeleeAttack.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyAttack.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets/Scripts/Enemies/EnemyEdgeDetection.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyChaser.cs" />
     <Compile Include="Assets/Scripts/Player/PlayerShoot.cs" />
+    <Compile Include="Assets/Scripts/Systems/BackgroundMusicManager.cs" />
     <Compile Include="Assets/Scripts/DashHandler.cs" />
     <Compile Include="Assets/Scripts/Enemies/EnemyChase.cs" />
     <Compile Include="Assets/Scripts/Player/PlayerJump.cs" />

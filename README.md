@@ -37,6 +37,8 @@
 ## Enemies
 
 [] niech nie spadają z platform
+[] boss ideas
+[] Jumping enemy
 
 ## Mapy
 
@@ -82,6 +84,23 @@
 # Poza projektem to do
 
 [] pogenerować tekstury... znaleźć ai?
+
+# Dźwięki
+
+## Player 1, 2, 3, 4
+
+[] skok
+[] upadek na ziemie po skoku
+[] strzał
+[] strzał 2
+[] basicAttack
+[] fastAttack
+[] strongAttack
+[] dash
+
+## Enemies
+
+[] onAttack
 
 # LINKS
 

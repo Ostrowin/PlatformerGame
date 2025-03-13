@@ -20,10 +20,10 @@ TagManager:
   - Background
   - Wall
   - Player
-  - 
-  - 
-  - 
-  - 
+  - FarBackground
+  - MidBackground
+  - NearBackground
+  - Foreground
   - 
   - 
   - 
@@ -50,4 +50,19 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: FarBackground
+    uniqueID: 3853168769
+    locked: 0
+  - name: MidBackground
+    uniqueID: 2526849661
+    locked: 0
+  - name: NearBackground
+    uniqueID: 433027977
+    locked: 0
+  - name: FForeground
+    uniqueID: 3414728533
+    locked: 0
+  - name: Player
+    uniqueID: 3608517725
     locked: 0
